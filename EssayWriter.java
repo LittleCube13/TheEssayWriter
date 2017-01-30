@@ -10,6 +10,7 @@ public class EssayWriter extends JFrame implements ActionListener {
 	static KeyStroke ctrlq = KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK);
 	static KeyStroke ctrlo = KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK);
 	static KeyStroke ctrls = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK);
+	static KeyStroke ctrle = KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK);
 	static JFrame frame = new JFrame();
 	static JFrame fcframe = new JFrame();
 	static JPanel tab1 = new JPanel();
@@ -36,7 +37,8 @@ public class EssayWriter extends JFrame implements ActionListener {
 	static JLabel lintro = new JLabel("Type your intro and conclusion and whatever here.");
 	static JLabel lintro2 = new JLabel("You are allowed to write normally,");
 	static JLabel lintro3 = new JLabel("with normal punctuation and normal sentences.");
-	static JLabel lintro4 = new JLabel("I'm really tired, just leave me alone.");
+	static JLabel lintro4 = new JLabel("Also don't include your thesis anywhere.");
+	static JLabel lintro5 = new JLabel("I'm really tired, just leave me alone.");
 	public static JTextField exp1 = new JTextField("Explanation 1",30);
 	public static JTextField def1 = new JTextField("Defense 1",30);
 	public static JTextField ill1 = new JTextField("Illustration 1",30);
@@ -62,14 +64,22 @@ public class EssayWriter extends JFrame implements ActionListener {
 	static JMenuItem save = new JMenuItem("Save");
 	static JMenuItem exit = new JMenuItem("Exit");
 	static JTabbedPane tabp = new JTabbedPane(SwingConstants.TOP, JTabbedPane.WRAP_TAB_LAYOUT);
+	static boolean initDone;
 	
 	public EssayWriter() {
 	}
 	
 	public static void main(String args[]) {
+		if (!initDone) {
 		if (UIManager.getSystemLookAndFeelClassName() == "com.apple.laf.AquaLookAndFeel") {
-				sys.setText("Mac OS X");
-			} else { sys.setText("System"); }
+								sys.setText("Mac OS X");
+                                sys.setSelected(true);
+                                metal.setSelected(false);
+			} else {
+            sys.setText("System");
+            sys.setSelected(false);
+            metal.setSelected(true);
+        }
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.add(tabp);
 		bar.add(file);
@@ -136,9 +146,20 @@ public class EssayWriter extends JFrame implements ActionListener {
 		tab3.add(lintro2);
 		tab3.add(lintro3);
 		tab3.add(lintro4);
+		tab3.add(lintro5);
 		frame.setResizable(false);
 		frame.setTitle("The Essay Writer 3000");
 		frame.setVisible(true);
+		fc.setFileFilter(new FileNameExtensionFilter("Essay Projects (.essay)", "essay"));
+		fc.setAcceptAllFileFilterUsed(false);
+		fcsa.setFileFilter(new FileNameExtensionFilter("PlainText File (.txt)", "txt"));
+		fcsa.setAcceptAllFileFilterUsed(false);
+		initDone = true;
+	} else { frame.setVisible(true); }
+}
+	
+	public void setOpen() {
+		
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -151,28 +172,57 @@ public class EssayWriter extends JFrame implements ActionListener {
 				
 				if (fcs == JFileChooser.APPROVE_OPTION) {
 				f = fc.getSelectedFile();
-				System.out.println(f);
+				thesis.setText(EssayProject.getMainPoint(f));
+				String[] temp;
+				String tempp;
+				temp = EssayProject.getThreePoints(f);
+				point1.setText(temp[0]);
+				point2.setText(temp[1]);
+				point3.setText(temp[2]);
+				temp = EssayProject.getExplanations(f);
+				exp1.setText(temp[0]);
+				exp2.setText(temp[1]);
+				exp3.setText(temp[2]);
+				temp = EssayProject.getDefenses(f);
+				def1.setText(temp[0]);
+				def2.setText(temp[1]);
+				def3.setText(temp[2]);
+				temp = EssayProject.getIllustrations(f);
+				ill1.setText(temp[0]);
+				ill2.setText(temp[1]);
+				ill3.setText(temp[2]);
+				tempp = EssayProject.getIntro(f);
+				intro.setText(tempp);
+				tempp = EssayProject.getConclusion(f);
+				conclu.setText(tempp);
 			}
 		}
 		
 		if (src == save) {
 			SwingUtilities.updateComponentTreeUI(fc);
-			fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				int fcs = fc.showSaveDialog(fcframe);
 				
 				if (fcs == JFileChooser.APPROVE_OPTION) {
 				f = fc.getSelectedFile();
+				if (!f.toString().endsWith(".essay")) {
+					f = new File(f.toString() + ".essay");
+				}
+				EssayProject.saveProject(f);
 				System.out.println(f);
 			}
 		}
 		
 		if (src == cessay) {
-			SwingUtilities.updateComponentTreeUI(fc);
-			fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-				int fcs = fc.showSaveDialog(fcframe);
+			SwingUtilities.updateComponentTreeUI(fcsa);
+			fcsa.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				int fcs = fcsa.showSaveDialog(fcframe);
 				
 				if (fcs == JFileChooser.APPROVE_OPTION) {
-				f = fc.getSelectedFile();
+				f = fcsa.getSelectedFile();
+				if (!f.toString().endsWith(".txt")) {
+					f = new File(f.toString() + ".txt");
+				}
 				System.out.println(f);
 				outputwriter.createEssay(f);
 			}
