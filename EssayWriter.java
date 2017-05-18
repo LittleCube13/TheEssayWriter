@@ -4,7 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.filechooser.*;
 
-public class EssayWriter extends JFrame implements ActionListener {
+public class EssayWriter implements ActionListener {
 	
 	static EssayWriter app = new EssayWriter();
 	static KeyStroke ctrlq = KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK);
@@ -154,6 +154,32 @@ public class EssayWriter extends JFrame implements ActionListener {
 		fc.setAcceptAllFileFilterUsed(false);
 		fcsa.setFileFilter(new FileNameExtensionFilter("PlainText File (.txt)", "txt"));
 		fcsa.setAcceptAllFileFilterUsed(false);
+		if (args.length > 0) {
+			f = new File(args[0]);
+			thesis.setText(EssayProject.getMainPoint(f));
+			String[] temp;
+			String tempp;
+			temp = EssayProject.getThreePoints(f);
+			point1.setText(temp[0]);
+			point2.setText(temp[1]);
+			point3.setText(temp[2]);
+			temp = EssayProject.getExplanations(f);
+			exp1.setText(temp[0]);
+			exp2.setText(temp[1]);
+			exp3.setText(temp[2]);
+			temp = EssayProject.getDefenses(f);
+			def1.setText(temp[0]);
+			def2.setText(temp[1]);
+			def3.setText(temp[2]);
+			temp = EssayProject.getIllustrations(f);
+			ill1.setText(temp[0]);
+			ill2.setText(temp[1]);
+			ill3.setText(temp[2]);
+			tempp = EssayProject.getIntro(f);
+			intro.setText(tempp);
+			tempp = EssayProject.getConclusion(f);
+			conclu.setText(tempp);
+		}
 		initDone = true;
 	} else { frame.setVisible(true); }
 }

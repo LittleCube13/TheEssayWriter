@@ -16,7 +16,7 @@ class outputwriter extends EssayWriter {
 	try {
 		FileWriter fw = new FileWriter(fil);
 		BufferedWriter buff = new BufferedWriter(fw);
-		essay = "\t" + intro.getText() + " " + thesis.getText() + ", because " + point1.getText() + ", " + point2.getText() + ", and finally, " + point3.getText() + ".\n\n\t" + "First, " + parapoint1 + ". " + exp1.getText() + " " + def1.getText() + " " + ill1.getText() + "\n\n\t" + "Second, " + parapoint2 + ". " + exp2.getText() + " " + def2.getText() + " " + ill2.getText() + "\n\n\t" + "Finally, " + parapoint3 + ". " + exp3.getText() + " " + def3.getText() + " " + ill3.getText() + "\n\n\t" + thesis.getText() + ", because " + point1.getText() + ", " + point2.getText() + ", and finally, " + point3.getText() + ". " + conclu.getText();
+		essay = "\t" + intro.getText() + " " + thesis.getText() + ", because " + point1.getText() + ", " + point2.getText() + ", and finally, " + point3.getText() + ".\n\n\t" + "First, " + thesis.getText() + " because " + parapoint1 + ". " + exp1.getText() + " " + def1.getText() + " " + ill1.getText() + "\n\n\t" + "Second, " + thesis.getText() + " because " + parapoint2 + ". " + exp2.getText() + " " + def2.getText() + " " + ill2.getText() + "\n\n\t" + "Finally, " + thesis.getText() + " because " + parapoint3 + ". " + exp3.getText() + " " + def3.getText() + " " + ill3.getText() + "\n\n\t" + thesis.getText() + ", because " + point1.getText() + ", " + point2.getText() + ", and finally, " + point3.getText() + ". " + conclu.getText();
 		buff.write(essay, 0, essay.length());
 		buff.close();
 	} catch (IOException e) { System.err.println("Crap happened."); }

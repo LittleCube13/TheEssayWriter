@@ -117,35 +117,45 @@ public class EssayProject extends EssayWriter {
 	
 	public static String getIntro(File asdlasdfasdf) {
 		String ret = "";
+		boolean introyet = false;
 		try {
-		FileReader fw = new FileReader(asdlasdfasdf);
-		BufferedReader buff = new BufferedReader(fw);
+		FileReader fr = new FileReader(asdlasdfasdf);
+		BufferedReader buff = new BufferedReader(fr);
 		for (String i = ""; !i.startsWith("conclusion:"); i = buff.readLine()) {
 		if (i.startsWith("intro:")) {
 			i = buff.readLine();
-			ret = i;
-			return ret;
+			ret += i + "\n";
+			introyet = true;
+		} else {
+			if (ret.indexOf(i) == -1 && introyet == true) {
+				ret += i + "\n";
+			}
 		}
 	}
 		buff.close();
 	} catch (Exception asdfasdfadsfadsfasdfasdf) { System.err.println(asdfasdfadsfadsfasdfasdf.toString()); }
-	return ret;
+	return ret.trim();
 	}
 
 	public static String getConclusion(File asdlasdfasdf) {
 		String ret = "";
+		boolean concluyet = false;
 		try {
-		FileReader fw = new FileReader(asdlasdfasdf);
-		BufferedReader buff = new BufferedReader(fw);
+		FileReader fr = new FileReader(asdlasdfasdf);
+		BufferedReader buff = new BufferedReader(fr);
 		for (String i = ""; i != null; i = buff.readLine()) {
 		if (i.startsWith("conclusion:")) {
 			i = buff.readLine();
-			ret = i;
-			return ret;
+			ret += i + "\n";
+			concluyet = true;
+		} else {
+			if (ret.indexOf(i) == -1 && concluyet == true) {
+				ret += i + "\n";
+			}
 		}
 	}
 		buff.close();
 	} catch (Exception asdfasdfadsfadsfasdfasdf) { System.err.println(asdfasdfadsfadsfasdfasdf.toString()); }
-	return ret;
+	return ret.trim();
 	}
 }
