@@ -9,16 +9,28 @@ class outputwriter extends EssayWriter {
 	static String parapoint1 = tpoint1;
 	static String parapoint2 = tpoint2;
 	static String parapoint3 = tpoint3;
-	static int c;
-	static boolean first;
+//	static int c;
+//	static boolean first;
 	
 	public static void createEssay(File fil) {
 	try {
 		FileWriter fw = new FileWriter(fil);
 		BufferedWriter buff = new BufferedWriter(fw);
-		essay = "\t" + intro.getText() + " " + thesis.getText() + ", because " + point1.getText() + ", " + point2.getText() + ", and finally, " + point3.getText() + ".\n\n\t" + "First, " + thesis.getText() + " because " + parapoint1 + ". " + exp1.getText() + " " + def1.getText() + " " + ill1.getText() + "\n\n\t" + "Second, " + thesis.getText() + " because " + parapoint2 + ". " + exp2.getText() + " " + def2.getText() + " " + ill2.getText() + "\n\n\t" + "Finally, " + thesis.getText() + " because " + parapoint3 + ". " + exp3.getText() + " " + def3.getText() + " " + ill3.getText() + "\n\n\t" + thesis.getText() + ", because " + point1.getText() + ", " + point2.getText() + ", and finally, " + point3.getText() + ". " + conclu.getText();
+		essay = "";
+		essay += addIntro();
+//		essay = "\t" + intro.getText() + " " + thesis.getText() + ", because " + point1.getText() + ", " + point2.getText() + ", and finally, " + point3.getText() + ".\n\n\t" + "First, " + thesis.getText() + " because " + parapoint1 + ". " + exp1.getText() + " " + def1.getText() + " " + ill1.getText() + "\n\n\t" + "Second, " + thesis.getText() + " because " + parapoint2 + ". " + exp2.getText() + " " + def2.getText() + " " + ill2.getText() + "\n\n\t" + "Finally, " + thesis.getText() + " because " + parapoint3 + ". " + exp3.getText() + " " + def3.getText() + " " + ill3.getText() + "\n\n\t" + thesis.getText() + ", because " + point1.getText() + ", " + point2.getText() + ", and finally, " + point3.getText() + ". " + conclu.getText();
 		buff.write(essay, 0, essay.length());
 		buff.close();
 	} catch (IOException e) { System.err.println("Crap happened."); }
+	}
+	
+	public static String addIntro() {
+		String essay = "\t" + intro.getText() + " " + thesis.getText() + ", because " + point1.getText() + ", " + point2.getText() + ", and finally, " + point3.getText() + ".";
+		return essay;
+	}
+	
+	public static String addParagraphs() {
+		String essay = "";
+		return essay;
 	}
 }

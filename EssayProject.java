@@ -1,5 +1,4 @@
 import java.io.*;
-import java.awt.event.*;
 
 public class EssayProject extends EssayWriter {
 	
@@ -13,6 +12,21 @@ public class EssayProject extends EssayWriter {
 		buff.write(stringfile, 0, stringfile.length());
 		buff.close();
 	} catch (Exception woeijosijfiosjef) { System.err.println(woeijosijfiosjef.toString()); }
+	}
+	public static int getParagraphCount(File asdlasdfasdf) {
+		int ret = 0;
+		try {
+		FileReader fw = new FileReader(asdlasdfasdf);
+		BufferedReader buff = new BufferedReader(fw);
+		for (String i = ""; i != null; i = buff.readLine()) {
+		if (i.startsWith("paragraphCount:")) {
+			i = buff.readLine();
+			ret = Integer.parseInt(i);
+		}
+	}
+		buff.close();
+		} catch (Exception asdfasdfasdfjkljkl) { System.err.println(asdfasdfasdfjkljkl.toString()); }
+		return ret;
 	}
 	
 	public static String getMainPoint(File asdlasdfasdf) {

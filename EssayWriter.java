@@ -58,12 +58,23 @@ public class EssayWriter implements ActionListener {
 	static JRadioButtonMenuItem nimbus = new JRadioButtonMenuItem("Nimbus");
 	static JMenu file = new JMenu("File");
 	static JMenu create = new JMenu("Create");
+	static JMenu options = new JMenu("Options");
 	static JMenuItem cessay = new JMenuItem("Essay");
 	static JMenu laf = new JMenu("Look and Feel");
 	static JMenuItem open = new JMenuItem("Open");
 	static JMenuItem save = new JMenuItem("Save");
 	static JMenuItem exit = new JMenuItem("Exit");
 	static JTabbedPane tabp = new JTabbedPane(SwingConstants.TOP, JTabbedPane.WRAP_TAB_LAYOUT);
+	public static boolean introbool;
+	public static boolean conclusionbool;
+	public static int paragraphsint;
+	public static boolean openLastProject = false;
+	static javax.swing.JCheckBox jCheckBox1;
+	static javax.swing.JCheckBox jCheckBox2;
+	static javax.swing.JLabel jLabel1;
+	static javax.swing.JLabel jLabel2;
+	static javax.swing.JSpinner jSpinner1;
+	static JPanel pane = new JPanel();
 	static boolean initDone;
 	
 	public EssayWriter() {
@@ -73,17 +84,18 @@ public class EssayWriter implements ActionListener {
 		if (!initDone) {
 		if (UIManager.getSystemLookAndFeelClassName() == "com.apple.laf.AquaLookAndFeel") {
 								sys.setText("Mac OS X");
-                                sys.setSelected(true);
-                                metal.setSelected(false);
+								sys.setSelected(true);
+								metal.setSelected(false);
 			} else {
-            sys.setText("System");
-            sys.setSelected(false);
-            metal.setSelected(true);
-        }
+			sys.setText("System");
+			sys.setSelected(false);
+			metal.setSelected(true);
+		}
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.add(tabp);
 		bar.add(file);
 		bar.add(create);
+		bar.add(options);
 		create.add(cessay);
 		cessay.addActionListener(app);
 		file.add(open);
@@ -181,11 +193,107 @@ public class EssayWriter implements ActionListener {
 			conclu.setText(tempp);
 		}
 		initDone = true;
+		
+		if (!openLastProject) {
+			JOptionPane dia = new JOptionPane();
+			int result = JOptionPane.showOptionDialog(null, createNewProjectPanel(), "Create Project Properties", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, new String[]{ "Done" }, "default");
+			if (result == JOptionPane.OK_OPTION) {
+				introbool = jCheckBox1.isSelected();
+				conclusionbool = jCheckBox2.isSelected();
+				paragraphsint = (int) jSpinner1.getValue();
+				System.out.println(Boolean.toString(introbool) + Boolean.toString(conclusionbool) + Integer.toString(paragraphsint));
+			}
+		}
 	} else { frame.setVisible(true); }
 }
 	
 	public void setOpen() {
 		
+	}
+	
+	private static void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {                                       
+		try {
+			jSpinner1.commitEdit();
+		} catch ( Exception e ) { }
+		int value = (Integer) jSpinner1.getValue();
+		if (value < 0) {
+			jSpinner1.setValue(Integer.valueOf(0));
+		}
+	}
+	
+	public static JPanel createNewProjectPanel() {
+		
+		jLabel1 = new javax.swing.JLabel();
+		jCheckBox1 = new javax.swing.JCheckBox();
+		jCheckBox2 = new javax.swing.JCheckBox();
+		jSpinner1 = new javax.swing.JSpinner();
+		jLabel2 = new javax.swing.JLabel();
+
+		jLabel1.setText("New Project");
+		jLabel1.addKeyListener(new java.awt.event.KeyAdapter() {
+			public void keyPressed(java.awt.event.KeyEvent evt) {
+			}
+		});
+
+		jCheckBox1.setText("Intro?");
+		jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+			}
+		});
+
+		jCheckBox2.setText("Conclusion?");
+
+		jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
+			public void stateChanged(javax.swing.event.ChangeEvent evt) {
+				jSpinner1StateChanged(evt);
+			}
+		});
+
+		jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		jLabel2.setText("How many Paragraphs?");
+		jLabel2.setPreferredSize(new java.awt.Dimension(172, 15));
+
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(pane);
+		pane.setLayout(layout);
+		layout.setHorizontalGroup(
+			layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+			.addGroup(layout.createSequentialGroup()
+				.addContainerGap()
+				.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+					.addGroup(layout.createSequentialGroup()
+						.addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+							.addComponent(jCheckBox1)
+							.addComponent(jCheckBox2))
+						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+			.addGroup(layout.createSequentialGroup()
+				.addGap(177, 177, 177)
+				.addComponent(jLabel1)
+				.addGap(0, 178, Short.MAX_VALUE))
+		);
+		layout.setVerticalGroup(
+			layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+			.addGroup(layout.createSequentialGroup()
+				.addContainerGap()
+				.addComponent(jLabel1)
+				.addGap(18, 18, 18)
+				.addComponent(jCheckBox1)
+				.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+				.addComponent(jCheckBox2)
+				.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+				.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+					.addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+					.addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+				.addContainerGap(187, Short.MAX_VALUE))
+		);
+		jCheckBox1.setSelected(true);
+		jCheckBox2.setSelected(true);
+		jSpinner1.setValue(Integer.valueOf(3));
+		return pane;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
