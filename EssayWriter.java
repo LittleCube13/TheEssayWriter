@@ -50,8 +50,8 @@ public class EssayWriter implements ActionListener {
 	public static JTextField ill3 = new JTextField("This would be your third Illustration.",30);
 	static JLabel lpar1 = new JLabel("--------------------------------------");
 	static JLabel lpar2 = new JLabel("--------------------------------------");
-	public static JTextArea intro = new JTextArea("You ever see someone die? Someone being: half an army exhausted from fighting their lungs out.",7,30);
-	public static JTextArea conclu = new JTextArea("This is what's wrong with kids today. They are horrible people who have no wit about them.",7,30);
+	public static JTextArea intro = new JTextArea("This would be your Intro.",7,30);
+	public static JTextArea conclu = new JTextArea("This would be your Conclusion.",7,30);
 	static ButtonGroup g = new ButtonGroup();
 	static JRadioButtonMenuItem sys = new JRadioButtonMenuItem("", true);
 	static JRadioButtonMenuItem metal = new JRadioButtonMenuItem("Metal");
@@ -195,15 +195,14 @@ public class EssayWriter implements ActionListener {
 		initDone = true;
 		
 		if (!openLastProject) {
-			JOptionPane dia = new JOptionPane();
+/*			JOptionPane dia = new JOptionPane();
 			int result = JOptionPane.showOptionDialog(null, createNewProjectPanel(), "Create Project Properties", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, new String[]{ "Done" }, "default");
 			if (result == JOptionPane.OK_OPTION) {
 				introbool = jCheckBox1.isSelected();
 				conclusionbool = jCheckBox2.isSelected();
 				paragraphsint = (int) jSpinner1.getValue();
-				System.out.println(Boolean.toString(introbool) + Boolean.toString(conclusionbool) + Integer.toString(paragraphsint));
 			}
-		}
+*/		}
 	} else { frame.setVisible(true); }
 }
 	
@@ -211,13 +210,13 @@ public class EssayWriter implements ActionListener {
 		
 	}
 	
-	private static void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {                                       
+	private static void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {
 		try {
 			jSpinner1.commitEdit();
 		} catch ( Exception e ) { }
 		int value = (Integer) jSpinner1.getValue();
-		if (value < 0) {
-			jSpinner1.setValue(Integer.valueOf(0));
+		if (value < 2) {
+			jSpinner1.setValue(Integer.valueOf(2));
 		}
 	}
 	
