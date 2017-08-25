@@ -3,10 +3,11 @@ import java.awt.event.*;
 
 import leviathanyaml.*;
 
-public class Preferences {
+public class Preferences extends EssayWriter {
 	
 	static File home = new File(System.getProperty("user.home"));
-	static File prefs = new File(home + File.separator + ".essaywriter.yml");
+	static File dir = new File(home + File.separator + ".essaywriter");
+	static File prefs = new File(home + File.separator + dir + File.separator + ".essaywriter.yml");
 	static GenericYaml prefsyml = new GenericYaml(prefs);
 	static String[][] prefsarr;
 	

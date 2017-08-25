@@ -2,27 +2,16 @@ import java.io.*;
 
 class outputwriter extends EssayWriter {
 	
-	static String essay;
-	static String thesis1 = thesis.getText();
-	static String parapoint1 = point1.getText();
-	static String parapoint2 = point2.getText();
-	static String parapoint3 = point3.getText();
-	static String ex1 = exp1.getText();
-	static String ex2 = exp2.getText();
-	static String ex3 = exp3.getText();
-	static String de1 = def1.getText();
-	static String de2 = def2.getText();
-	static String de3 = def3.getText();
-	static String il1 = ill1.getText();
-	static String il2 = ill2.getText();
-	static String il3 = ill3.getText();
-	static String intro1 = intro.getText();
-	static String conclu1 = conclu.getText();
 	static int c;
 	static boolean first;
 	
 	static String upper(String str) {
 		str = str.substring(0, 1).toUpperCase() + str.substring(1);
+		return str;
+	}
+	
+	static String lower(String str) {
+		str = str.substring(0, 1).toLowerCase() + str.substring(1);
 		return str;
 	}
 	
@@ -56,6 +45,22 @@ class outputwriter extends EssayWriter {
 	
 	public static void createEssay(File fil) {
 	try {
+		String essay;
+		String thesis1 = thesis.getText();
+		String parapoint1 = point1.getText();
+		String parapoint2 = point2.getText();
+		String parapoint3 = point3.getText();
+		String ex1 = exp1.getText();
+		String ex2 = exp2.getText();
+		String ex3 = exp3.getText();
+		String de1 = def1.getText();
+		String de2 = def2.getText();
+		String de3 = def3.getText();
+		String il1 = ill1.getText();
+		String il2 = ill2.getText();
+		String il3 = ill3.getText();
+		String intro1 = intro.getText();
+		String conclu1 = conclu.getText();
 		FileWriter fw = new FileWriter(fil);
 		BufferedWriter buff = new BufferedWriter(fw);
 		thesis1 = stripPunctuation(thesis1);
@@ -73,7 +78,7 @@ class outputwriter extends EssayWriter {
 		il3 = stripPunctuation(il3);
 		intro1 = stripPunctuation(intro1);
 		conclu1 = stripPunctuation(conclu1);
-		essay = "\t" + period(upper(intro1)) + " " + upper(thesis1) + " because " + comma(parapoint1) + " " + comma(parapoint2) + " and finally, " + period(parapoint3) + "\n\n\t" + "First, " + thesis1 + " because " + period(parapoint1) + " " + period(upper(ex1)) + " " + period(upper(de1)) + " " + period(upper(il1)) + "\n\n\t" + "Second, " + thesis1 + " because " + period(parapoint2) + " " + period(upper(ex2)) + " " + period(upper(de2)) + " " + period(upper(il2)) + "\n\n\t" + "Finally, " + thesis1 + " because " + period(parapoint3) + " " + period(upper(ex3)) + " " + period(upper(de3)) + " " + period(upper(il3)) + "\n\n\t" + comma(upper(thesis1)) + " because " + comma(parapoint1) + " " + comma(parapoint2) + " and finally, " + period(parapoint3) + " " + period(upper(conclu1));
+		essay = "\t" + period(upper(intro1)) + " " + upper(thesis1) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + "\n\n\t" + "First, " + lower(thesis1) + " because " + lower(period(parapoint1)) + " " + period(upper(ex1)) + " " + period(upper(de1)) + " " + period(upper(il1)) + "\n\n\t" + "Second, " + lower(thesis1) + " because " + lower(period(parapoint2)) + " " + period(upper(ex2)) + " " + period(upper(de2)) + " " + period(upper(il2)) + "\n\n\t" + "Finally, " + lower(thesis1) + " because " + lower(period(parapoint3)) + " " + period(upper(ex3)) + " " + period(upper(de3)) + " " + period(upper(il3)) + "\n\n\t" + comma(upper(thesis1)) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + " " + period(upper(conclu1));
 		buff.write(essay, 0, essay.length());
 		buff.close();
 	} catch (IOException e) { System.err.println("Crap happened."); }

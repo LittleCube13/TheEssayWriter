@@ -91,7 +91,12 @@ public class EssayWriter implements ActionListener {
 			sys.setSelected(false);
 			metal.setSelected(true);
 		}
-		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent ev) {
+				askToSave();
+			}
+		});
 		frame.add(tabp);
 		bar.add(file);
 		bar.add(create);
@@ -102,7 +107,7 @@ public class EssayWriter implements ActionListener {
 		open.addActionListener(app);
 		open.setAccelerator(ctrlo);
 		file.add(save);
-		file.add(laf);
+		options.add(laf);
 		laf.add(sys);
 		laf.add(metal);
 		laf.add(nimbus);
@@ -195,16 +200,26 @@ public class EssayWriter implements ActionListener {
 		initDone = true;
 		
 		if (!openLastProject) {
-/*			JOptionPane dia = new JOptionPane();
+/*          JOptionPane dia = new JOptionPane();
 			int result = JOptionPane.showOptionDialog(null, createNewProjectPanel(), "Create Project Properties", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, new String[]{ "Done" }, "default");
 			if (result == JOptionPane.OK_OPTION) {
 				introbool = jCheckBox1.isSelected();
 				conclusionbool = jCheckBox2.isSelected();
 				paragraphsint = (int) jSpinner1.getValue();
 			}
-*/		}
-	} else { frame.setVisible(true); }
-}
+*/      }
+		} else { frame.setVisible(true); }
+	}
+	
+	static void askToSave() {
+		String[] options = { "Yes", "No", "Cancel" };
+		int n = JOptionPane.showOptionDialog(frame, "Would you like to save before you exit?", "Save?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		if (n == JOptionPane.YES_OPTION) {
+			save();
+		} else if (n == JOptionPane.NO_OPTION) {
+			System.exit(0);
+		}
+	}
 	
 	public void setOpen() {
 		
@@ -295,48 +310,45 @@ public class EssayWriter implements ActionListener {
 		return pane;
 	}
 	
-	public void actionPerformed(ActionEvent e) {
-		Object src = e.getSource();
+	static void open() {
+		SwingUtilities.updateComponentTreeUI(fc);
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		int fcs = fc.showOpenDialog(fcframe);
 		
-		if (src == open) {
-			SwingUtilities.updateComponentTreeUI(fc);
-			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				int fcs = fc.showOpenDialog(fcframe);
-				
-				if (fcs == JFileChooser.APPROVE_OPTION) {
-				f = fc.getSelectedFile();
-				thesis.setText(EssayProject.getMainPoint(f));
-				String[] temp;
-				String tempp;
-				temp = EssayProject.getThreePoints(f);
-				point1.setText(temp[0]);
-				point2.setText(temp[1]);
-				point3.setText(temp[2]);
-				temp = EssayProject.getExplanations(f);
-				exp1.setText(temp[0]);
-				exp2.setText(temp[1]);
-				exp3.setText(temp[2]);
-				temp = EssayProject.getDefenses(f);
-				def1.setText(temp[0]);
-				def2.setText(temp[1]);
-				def3.setText(temp[2]);
-				temp = EssayProject.getIllustrations(f);
-				ill1.setText(temp[0]);
-				ill2.setText(temp[1]);
-				ill3.setText(temp[2]);
-				tempp = EssayProject.getIntro(f);
-				intro.setText(tempp);
-				tempp = EssayProject.getConclusion(f);
-				conclu.setText(tempp);
-			}
+		if (fcs == JFileChooser.APPROVE_OPTION) {
+			f = fc.getSelectedFile();
+			thesis.setText(EssayProject.getMainPoint(f));
+			String[] temp;
+			String tempp;
+			temp = EssayProject.getThreePoints(f);
+			point1.setText(temp[0]);
+			point2.setText(temp[1]);
+			point3.setText(temp[2]);
+			temp = EssayProject.getExplanations(f);
+			exp1.setText(temp[0]);
+			exp2.setText(temp[1]);
+			exp3.setText(temp[2]);
+			temp = EssayProject.getDefenses(f);
+			def1.setText(temp[0]);
+			def2.setText(temp[1]);
+			def3.setText(temp[2]);
+			temp = EssayProject.getIllustrations(f);
+			ill1.setText(temp[0]);
+			ill2.setText(temp[1]);
+			ill3.setText(temp[2]);
+			tempp = EssayProject.getIntro(f);
+			intro.setText(tempp);
+			tempp = EssayProject.getConclusion(f);
+			conclu.setText(tempp);
 		}
-		
-		if (src == save) {
-			SwingUtilities.updateComponentTreeUI(fc);
+	}
+	
+	static void save() {
+		SwingUtilities.updateComponentTreeUI(fc);
 			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				int fcs = fc.showSaveDialog(fcframe);
+			int fcs = fc.showSaveDialog(fcframe);
 				
-				if (fcs == JFileChooser.APPROVE_OPTION) {
+			if (fcs == JFileChooser.APPROVE_OPTION) {
 				f = fc.getSelectedFile();
 				if (!f.toString().endsWith(".essay")) {
 					f = new File(f.toString() + ".essay");
@@ -344,6 +356,17 @@ public class EssayWriter implements ActionListener {
 				EssayProject.saveProject(f);
 				System.out.println(f);
 			}
+		}
+	
+	public void actionPerformed(ActionEvent e) {
+		Object src = e.getSource();
+		
+		if (src == open) {
+			open();
+		}
+		
+		if (src == save) {
+			save();
 		}
 		
 		if (src == cessay) {
@@ -383,7 +406,7 @@ public class EssayWriter implements ActionListener {
 		}
 		
 		if (src == exit) {
-			System.exit(0);
+			askToSave();
 		}
 	}
 }

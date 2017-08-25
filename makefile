@@ -1,7 +1,7 @@
 all:
 	javac *.java
 	jar cvfe EssayWriter.jar EssayWriter *.class
-	rm *.class || continue
+	make clean
 
 dev:
 	javac *.java
@@ -9,7 +9,8 @@ dev:
 
 clean:
 	rm *.class || continue
+	rm leviathanyaml/*.class || continue
 
 clean-all:
 	make clean
-	rm *.jar || continue
+	rm EssayWriter.jar || continue
