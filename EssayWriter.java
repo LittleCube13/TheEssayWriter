@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.filechooser.*;
+import java.nio.*;
+import java.nio.channels.*;
+import java.net.*;
 
 public class EssayWriter implements ActionListener {
 	
@@ -92,11 +95,13 @@ public class EssayWriter implements ActionListener {
 			metal.setSelected(true);
 		}
 		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		System.setProperty("apple.eawt.quitStrategy", "DO_NOTHING_ON_CLOSE");
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent ev) {
 				askToSave();
 			}
 		});
+		checkForUpdate();
 		frame.add(tabp);
 		bar.add(file);
 		bar.add(create);
@@ -209,6 +214,18 @@ public class EssayWriter implements ActionListener {
 			}
 */      }
 		} else { frame.setVisible(true); }
+	}
+	
+	static void checkForUpdate() {
+		try {
+			URL website = new URL("https://raw.githubusercontent.com/LittlestCube/TheEssayWriter/master/version.txt");
+			FileReader fir = new FileReader(website.getFile());
+			BufferedReader buffer = new BufferedReader(fir);
+			int version = Integer.parseInt(buffer.readLine());
+			InputStream in = EssayWriter.class.getResourceAsStream("version.txt"); 
+			BufferedReader bufferr = new BufferedReader(new InputStreamReader(in));
+			System.out.println(bufferr.readLine());
+		} catch (Exception e) { System.err.println("Whoops! Error: " + e.toString()); }
 	}
 	
 	static void askToSave() {
