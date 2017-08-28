@@ -231,9 +231,11 @@ public class EssayWriter implements ActionListener {
 				ReadableByteChannel rbc = Channels.newChannel(website2.openStream());
 				FileOutputStream fos = new FileOutputStream(new File("EssayWriterv" + version + ".jar"));
 				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-				File currjar = new File(EssayWriter.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath() + "EssayWriterv" + currversion + ".jar");
+				File currjar = new File("EssayWriterv" + currversion + ".jar");
 				currjar.delete();
-				JOptionPane.showMessageDialog(frame, "A new version of the EssayWriter has been found and downloaded. This version has also been deleted. This will close when you click OK, and you can open the new version from the same folder this was in.");
+				Runtime rt = Runtime.getRuntime();
+				Process pr = rt.exec("rm -f" + new File(EssayWriter.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).toString());
+				JOptionPane.showMessageDialog(frame, "A new version of the EssayWriter has been found and downloaded, and this version has been deleted.\nThis will close when you click OK, and you can open the new version from the same folder this was in.");
 				System.exit(0);
 			} else if (rversion < rcurrversion) {
 				System.out.println("Whoa, wait, are you from the future?");
