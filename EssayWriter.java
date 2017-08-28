@@ -219,12 +219,25 @@ public class EssayWriter implements ActionListener {
 	static void checkForUpdate() {
 		try {
 			URL website = new URL("https://raw.githubusercontent.com/LittlestCube/TheEssayWriter/master/version.txt");
-			FileReader fir = new FileReader(website.getFile());
-			BufferedReader buffer = new BufferedReader(fir);
-			int version = Integer.parseInt(buffer.readLine());
-			InputStream in = EssayWriter.class.getResourceAsStream("version.txt"); 
+			BufferedReader buffer = new BufferedReader(new InputStreamReader(website.openStream()));
+			int rversion = Integer.parseInt(buffer.readLine());
+			String version = buffer.readLine();
+			InputStream in = EssayWriter.class.getResourceAsStream("version.txt");
 			BufferedReader bufferr = new BufferedReader(new InputStreamReader(in));
-			System.out.println(bufferr.readLine());
+			int rcurrversion = Integer.parseInt(bufferr.readLine());
+			String currversion = bufferr.readLine();
+			if (rcurrversion < rversion) {
+				URL website2 = new URL("https://github.com/LittlestCube/TheEssayWriter/releases/download/v" + version + "/EssayWriterv" + version + ".jar");
+				ReadableByteChannel rbc = Channels.newChannel(website2.openStream());
+				FileOutputStream fos = new FileOutputStream(new File("EssayWriterv" + version + ".jar"));
+				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+				File currjar = new File(EssayWriter.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath() + "EssayWriterv" + currversion + ".jar");
+				currjar.delete();
+				JOptionPane.showMessageDialog(frame, "A new version of the EssayWriter has been found and downloaded. This version has also been deleted. This will close when you click OK, and you can open the new version from the same folder this was in.");
+				System.exit(0);
+			} else if (rversion < rcurrversion) {
+				System.out.println("Whoa, wait, are you from the future?");
+			}
 		} catch (Exception e) { System.err.println("Whoops! Error: " + e.toString()); }
 	}
 	

@@ -1,11 +1,10 @@
 all:
-	javac *.java
-	jar cvfe EssayWriter.jar EssayWriter *.class
+	make dev
 	make clean
 
 dev:
 	javac *.java
-	jar cvfe EssayWriter.jar EssayWriter *.class
+	jar cvfe EssayWriter.jar EssayWriter *
 
 clean:
 	rm *.class || continue
