@@ -247,8 +247,10 @@ public class EssayWriter implements ActionListener {
 		String[] options = { "Yes", "No", "Cancel" };
 		int n = JOptionPane.showOptionDialog(frame, "Would you like to save before you exit?", "Save?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 		if (n == JOptionPane.YES_OPTION) {
-			save();
-			System.exit(0);
+			int iiii = _save();
+			if (iiii == JFileChooser.APPROVE_OPTION) {
+				System.exit(0);
+			}
 		} else if (n == JOptionPane.NO_OPTION) {
 			System.exit(0);
 		}
@@ -390,6 +392,22 @@ public class EssayWriter implements ActionListener {
 				System.out.println(f);
 			}
 		}
+	
+	static int _save() {
+		SwingUtilities.updateComponentTreeUI(fc);
+			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			int fcs = fc.showSaveDialog(fcframe);
+				
+			if (fcs == JFileChooser.APPROVE_OPTION) {
+				f = fc.getSelectedFile();
+				if (!f.toString().endsWith(".essay")) {
+					f = new File(f.toString() + ".essay");
+				}
+				EssayProject.saveProject(f);
+				System.out.println(f);
+			}
+		return fcs;
+	}
 	
 	public void actionPerformed(ActionEvent e) {
 		Object src = e.getSource();
