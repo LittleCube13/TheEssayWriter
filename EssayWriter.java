@@ -248,6 +248,7 @@ public class EssayWriter implements ActionListener {
 		int n = JOptionPane.showOptionDialog(frame, "Would you like to save before you exit?", "Save?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 		if (n == JOptionPane.YES_OPTION) {
 			save();
+			System.exit(0);
 		} else if (n == JOptionPane.NO_OPTION) {
 			System.exit(0);
 		}
