@@ -21,7 +21,9 @@ public class EssayProject extends EssayWriter {
 		for (String i = ""; i != null; i = buff.readLine()) {
 		if (i.startsWith("paragraphCount:")) {
 			i = buff.readLine();
-			ret = Integer.parseInt(i);
+			if (!i.equals("")) {
+				ret = Integer.parseInt(i);
+			}
 		}
 	}
 		buff.close();
@@ -37,7 +39,9 @@ public class EssayProject extends EssayWriter {
 		for (String i = ""; i != null; i = buff.readLine()) {
 		if (i.startsWith("mainPoint:")) {
 			i = buff.readLine();
-			ret = i;
+			if (!i.equals("")) {
+				ret = i;
+			}
 		}
 	}
 		buff.close();
@@ -53,12 +57,14 @@ public class EssayProject extends EssayWriter {
 		for (String i = ""; !i.startsWith("explanations:"); i = buff.readLine()) {
 		if (i.startsWith("points:")) {
 			i = buff.readLine();
-			ret[0] = i;
-			i = buff.readLine();
-			ret[1] = i;
-			i = buff.readLine();
-			ret[2] = i;
-			return ret;
+			if (!i.equals("")) {
+				ret[0] = i;
+				i = buff.readLine();
+				ret[1] = i;
+				i = buff.readLine();
+				ret[2] = i;
+				return ret;
+			}
 		}
 	}
 		buff.close();
@@ -74,12 +80,14 @@ public class EssayProject extends EssayWriter {
 		for (String i = ""; !i.startsWith("defenses:"); i = buff.readLine()) {
 		if (i.startsWith("explanations:")) {
 			i = buff.readLine();
-			ret[0] = i;
-			i = buff.readLine();
-			ret[1] = i;
-			i = buff.readLine();
-			ret[2] = i;
-			return ret;
+			if (!i.equals("")) {
+				ret[0] = i;
+				i = buff.readLine();
+				ret[1] = i;
+				i = buff.readLine();
+				ret[2] = i;
+				return ret;
+			}
 		}
 	}
 		buff.close();
@@ -95,12 +103,14 @@ public class EssayProject extends EssayWriter {
 		for (String i = ""; !i.startsWith("illustrations:"); i = buff.readLine()) {
 		if (i.startsWith("defenses:")) {
 			i = buff.readLine();
-			ret[0] = i;
-			i = buff.readLine();
-			ret[1] = i;
-			i = buff.readLine();
-			ret[2] = i;
-			return ret;
+			if (!i.equals("")) {
+				ret[0] = i;
+				i = buff.readLine();
+				ret[1] = i;
+				i = buff.readLine();
+				ret[2] = i;
+				return ret;
+			}
 		}
 	}
 		buff.close();
@@ -116,12 +126,14 @@ public class EssayProject extends EssayWriter {
 		for (String i = ""; !i.startsWith("intro:"); i = buff.readLine()) {
 		if (i.startsWith("illustrations:")) {
 			i = buff.readLine();
-			ret[0] = i;
-			i = buff.readLine();
-			ret[1] = i;
-			i = buff.readLine();
-			ret[2] = i;
-			return ret;
+			if (!i.equals("")) {
+				ret[0] = i;
+				i = buff.readLine();
+				ret[1] = i;
+				i = buff.readLine();
+				ret[2] = i;
+				return ret;
+			}
 		}
 	}
 		buff.close();
@@ -138,8 +150,10 @@ public class EssayProject extends EssayWriter {
 		for (String i = ""; !i.startsWith("conclusion:"); i = buff.readLine()) {
 		if (i.startsWith("intro:")) {
 			i = buff.readLine();
-			ret += i + "\n";
-			introyet = true;
+			if (!i.equals("")) {
+				ret += i + "\n";
+				introyet = true;
+			}
 		} else {
 			if (ret.indexOf(i) == -1 && introyet == true) {
 				ret += i + "\n";
@@ -160,8 +174,10 @@ public class EssayProject extends EssayWriter {
 		for (String i = ""; i != null; i = buff.readLine()) {
 		if (i.startsWith("conclusion:")) {
 			i = buff.readLine();
-			ret += i + "\n";
-			concluyet = true;
+			if (!i.equals("")) {
+				ret += i + "\n";
+				concluyet = true;
+			}
 		} else {
 			if (ret.indexOf(i) == -1 && concluyet == true) {
 				ret += i + "\n";

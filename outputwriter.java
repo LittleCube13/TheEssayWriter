@@ -6,16 +6,19 @@ class outputwriter extends EssayWriter {
 	static boolean first;
 	
 	static String upper(String str) {
+		if (str.equals("")) { return str; }
 		str = str.substring(0, 1).toUpperCase() + str.substring(1);
 		return str;
 	}
 	
 	static String lower(String str) {
+		if (str.equals("")) { return str; }
 		str = str.substring(0, 1).toLowerCase() + str.substring(1);
 		return str;
 	}
 	
 	static String period(String str) {
+		if (str.equals("")) { return str; }
 		if (!str.endsWith(".")) {
 			str += ".";
 		}
@@ -23,6 +26,7 @@ class outputwriter extends EssayWriter {
 	}
 	
 	static String comma(String str) {
+		if (str.equals("")) { return str; }
 		if (!str.endsWith(",")) {
 			str += ",";
 		}
@@ -30,6 +34,7 @@ class outputwriter extends EssayWriter {
 	}
 	
 	static String stripPunctuation(String str) {
+		if (str.equals("")) { return str; }
 		char c = str.charAt(0);
 		while ((!(c >= 'A' && c <= 'Z') && !(c >= 'a' && c <= 'z')) && str.length() >= 1) {
 			str = str.substring(1);
