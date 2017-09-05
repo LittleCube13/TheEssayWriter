@@ -1,0 +1,3 @@
+[submodule "leviathanyaml"]
+	path = leviathanyaml
+	url = https://github.com/LittlestCube/leviathanyaml.git
