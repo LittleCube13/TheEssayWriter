@@ -10,12 +10,15 @@ import java.net.*;
 public class EssayWriter implements ActionListener {
 	
 	static EssayWriter app = new EssayWriter();
+	static Preferences prfs = new Preferences();
 	static KeyStroke ctrlq = KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK);
 	static KeyStroke ctrlo = KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK);
 	static KeyStroke ctrls = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK);
 	static KeyStroke ctrle = KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK);
+	static KeyStroke ctrlr = KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK);
 	static JFrame frame = new JFrame();
 	static JFrame fcframe = new JFrame();
+	static JFrame previewframe = new JFrame();
 	static JPanel tab1 = new JPanel();
 	static JPanel tab2 = new JPanel();
 	static JPanel tab3 = new JPanel();
@@ -66,6 +69,7 @@ public class EssayWriter implements ActionListener {
 	static JMenu laf = new JMenu("Look and Feel");
 	static JMenuItem open = new JMenuItem("Open");
 	static JMenuItem save = new JMenuItem("Save");
+	static JMenuItem preview = new JMenuItem("Preview");
 	static JMenuItem exit = new JMenuItem("Exit");
 	static JTabbedPane tabp = new JTabbedPane(SwingConstants.TOP, JTabbedPane.WRAP_TAB_LAYOUT);
 	public static boolean introbool;
@@ -78,6 +82,7 @@ public class EssayWriter implements ActionListener {
 	static javax.swing.JLabel jLabel2;
 	static javax.swing.JSpinner jSpinner1;
 	static JPanel pane = new JPanel();
+	static String currversion;
 	static boolean initDone;
 	
 	public EssayWriter() {
@@ -124,8 +129,11 @@ public class EssayWriter implements ActionListener {
 		nimbus.addActionListener(app);
 		save.addActionListener(app);
 		save.setAccelerator(ctrls);
+		file.add(preview);
 		file.addSeparator();
 		file.add(exit);
+		preview.addActionListener(app);
+		preview.setAccelerator(ctrlr);
 		exit.addActionListener(app);
 		exit.setAccelerator(ctrlq);
 		frame.setSize(500,500);
@@ -170,7 +178,7 @@ public class EssayWriter implements ActionListener {
 		tab3.add(lintro4);
 		tab3.add(lintro5);
 		frame.setResizable(false);
-		frame.setTitle("The Essay Writer 3000");
+		frame.setTitle("The Ess-inator 3000 v" + currversion);
 		frame.setVisible(true);
 		fc.setFileFilter(new FileNameExtensionFilter("Essay Projects (.essay)", "essay"));
 		fc.setAcceptAllFileFilterUsed(false);
@@ -225,18 +233,32 @@ public class EssayWriter implements ActionListener {
 			InputStream in = EssayWriter.class.getResourceAsStream("version.txt");
 			BufferedReader bufferr = new BufferedReader(new InputStreamReader(in));
 			int rcurrversion = Integer.parseInt(bufferr.readLine());
-			String currversion = bufferr.readLine();
+			currversion = bufferr.readLine();
 			if (rcurrversion < rversion) {
-				URL website2 = new URL("https://github.com/LittlestCube/TheEssayWriter/releases/download/v" + version + "/EssayWriterv" + version + ".jar");
-				ReadableByteChannel rbc = Channels.newChannel(website2.openStream());
-				FileOutputStream fos = new FileOutputStream(new File("EssayWriterv" + version + ".jar"));
-				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-				File currjar = new File("EssayWriterv" + currversion + ".jar");
-				currjar.delete();
-				Runtime rt = Runtime.getRuntime();
-				Process pr = rt.exec("rm -f" + new File(EssayWriter.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).toString());
-				JOptionPane.showMessageDialog(frame, "A new version of the EssayWriter has been found and downloaded, and this version has been deleted.\nThis will close when you click OK, and you can open the new version from the same folder this was in.");
-				System.exit(0);
+				JPanel mainPanel = new JPanel();
+				String[] buttons = { "Yes", "No" };
+				JTextArea tareat = new JTextArea("", 7, 30);
+				tareat.setEnabled(false);
+				mainPanel.add(tareat);
+				URL website3 = new URL("https://raw.githubusercontent.com/LittlestCube/TheEssayWriter/master/changes.txt");
+				BufferedReader bufferrr = new BufferedReader(new InputStreamReader(website3.openStream()));
+				String liness = "";
+				for (String linee = ""; linee != null; linee = bufferrr.readLine()) {
+					liness += linee;
+				}
+				tareat.setText(liness);
+				int result = JOptionPane.showOptionDialog(frame, mainPanel, "Update to v" + version + " found", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, buttons, buttons[0]);
+				if (result == JOptionPane.YES_OPTION) {
+					URL website2 = new URL("https://github.com/LittlestCube/TheEssayWriter/releases/download/v" + version + "/EssayWriterv" + version + ".jar");
+					ReadableByteChannel rbc = Channels.newChannel(website2.openStream());
+					FileOutputStream fos = new FileOutputStream(new File("EssayWriterv" + version + ".jar"));
+					fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+					File currjar = new File("EssayWriterv" + currversion + ".jar");
+					currjar.delete();
+					Runtime rt = Runtime.getRuntime();
+					Process pr = rt.exec("rm -f" + new File(EssayWriter.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).toString());
+					System.exit(0);
+				}
 			} else if (rversion < rcurrversion) {
 				System.out.println("Whoa, wait, are you from the future?");
 			}
@@ -412,6 +434,20 @@ public class EssayWriter implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object src = e.getSource();
 		
+		if (src == preview) {
+			String essay = outputwriter.createEssay();
+			JTextArea previewbox = new JTextArea("", 25, 40);
+			JScrollPane scrollPane = new JScrollPane(previewbox);
+			previewframe.add(scrollPane);
+			previewframe.setTitle("Preview");
+			previewbox.setText(essay);
+			previewbox.setEnabled(false);
+			previewbox.setLineWrap(true);
+			previewbox.setWrapStyleWord(true);
+			previewframe.pack();
+			previewframe.setVisible(true);
+		}
+		
 		if (src == open) {
 			open();
 		}
@@ -431,7 +467,13 @@ public class EssayWriter implements ActionListener {
 					f = new File(f.toString() + ".txt");
 				}
 				System.out.println(f);
-				outputwriter.createEssay(f);
+				String essay = outputwriter.createEssay();
+				try {
+					FileWriter fw = new FileWriter(f);
+					BufferedWriter buff = new BufferedWriter(fw);
+					buff.write(essay, 0, essay.length());
+					buff.close();
+				} catch (Exception ee) { System.err.println("Whoops! Error in action cessay: " + ee.toString()); }
 			}
 		}
 		
@@ -439,6 +481,7 @@ public class EssayWriter implements ActionListener {
 			try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			SwingUtilities.updateComponentTreeUI(frame);
+			SwingUtilities.updateComponentTreeUI(previewframe);
 		} catch (Exception exc) {}
 		}
 		
@@ -446,6 +489,7 @@ public class EssayWriter implements ActionListener {
 			try {
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 			SwingUtilities.updateComponentTreeUI(frame);
+			SwingUtilities.updateComponentTreeUI(previewframe);
 		} catch (Exception exc) {}
 		}
 		
@@ -453,6 +497,7 @@ public class EssayWriter implements ActionListener {
 			try {
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 			SwingUtilities.updateComponentTreeUI(frame);
+			SwingUtilities.updateComponentTreeUI(previewframe);
 		} catch (Exception exc) {}
 		}
 		

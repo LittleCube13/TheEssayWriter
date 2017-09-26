@@ -1,0 +1,7 @@
+Changes in v1.3.0:
+
+	- Added this nifty textbox to tell you the changes you're about to update to.
+
+	- Added the ability to avoid an update.
+
+	- Added a Preview button, which allows the user to preview the entire essay without actually saving or writing it.
