@@ -239,12 +239,15 @@ public class EssayWriter implements ActionListener {
 				String[] buttons = { "Yes", "No" };
 				JTextArea tareat = new JTextArea("", 7, 30);
 				tareat.setEnabled(false);
-				mainPanel.add(tareat);
+				tareat.setLineWrap(true);
+				tareat.setWrapStyleWord(true);
+				JScrollPane scrollPane = new JScrollPane(tareat);
+				mainPanel.add(scrollPane);
 				URL website3 = new URL("https://raw.githubusercontent.com/LittlestCube/TheEssayWriter/master/changes.txt");
 				BufferedReader bufferrr = new BufferedReader(new InputStreamReader(website3.openStream()));
 				String liness = "";
 				for (String linee = ""; linee != null; linee = bufferrr.readLine()) {
-					liness += linee;
+					liness += linee + "\n";
 				}
 				tareat.setText(liness);
 				int result = JOptionPane.showOptionDialog(frame, mainPanel, "Update to v" + version + " found", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, buttons, buttons[0]);
@@ -253,8 +256,6 @@ public class EssayWriter implements ActionListener {
 					ReadableByteChannel rbc = Channels.newChannel(website2.openStream());
 					FileOutputStream fos = new FileOutputStream(new File("EssayWriterv" + version + ".jar"));
 					fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-					File currjar = new File("EssayWriterv" + currversion + ".jar");
-					currjar.delete();
 					Runtime rt = Runtime.getRuntime();
 					Process pr = rt.exec("rm -f" + new File(EssayWriter.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).toString());
 					System.exit(0);
