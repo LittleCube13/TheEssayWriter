@@ -83,6 +83,8 @@ public class EssayWriter implements ActionListener {
 	static javax.swing.JSpinner jSpinner1;
 	static JPanel pane = new JPanel();
 	static String currversion;
+	static JTextArea previewbox = new JTextArea("", 25, 40);
+	static JScrollPane scrollPane = new JScrollPane(previewbox);
 	static boolean initDone;
 	
 	public EssayWriter() {
@@ -107,6 +109,11 @@ public class EssayWriter implements ActionListener {
 			}
 		});
 		checkForUpdate();
+		previewframe.add(scrollPane);
+		previewframe.setTitle("Preview");
+		previewbox.setEnabled(false);
+		previewbox.setLineWrap(true);
+		previewbox.setWrapStyleWord(true);
 		frame.add(tabp);
 		bar.add(file);
 		bar.add(create);
@@ -437,15 +444,8 @@ public class EssayWriter implements ActionListener {
 		
 		if (src == preview) {
 			String essay = outputwriter.createEssay();
-			JTextArea previewbox = new JTextArea("", 25, 40);
-			JScrollPane scrollPane = new JScrollPane(previewbox);
-			previewframe.add(scrollPane);
-			previewframe.setTitle("Preview");
-			previewbox.setText(essay);
-			previewbox.setEnabled(false);
-			previewbox.setLineWrap(true);
-			previewbox.setWrapStyleWord(true);
 			previewframe.pack();
+			previewbox.setText(essay);
 			previewframe.setVisible(true);
 		}
 		
