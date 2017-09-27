@@ -1,3 +1,3 @@
-Changes in v1.3.2:
+Changes in v1.3.3:
 
-	- Fixed preview window.
+	- Fixed problem where the EssayWriter would skip over every set of explanations, defenses, or illustrations if the first was blank.
