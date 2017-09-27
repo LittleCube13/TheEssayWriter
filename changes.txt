@@ -1,3 +1,5 @@
-Changes in v1.3.3:
+Changes in v1.3.5:
 
-	- Fixed problem where the EssayWriter would skip over every set of explanations, defenses, or illustrations if the first was blank.
+	- Fixed bug concerning the EssayWriter not deleting itself upon updating.
+
+	- Changed the text in the save before quitting window to be more clear.
