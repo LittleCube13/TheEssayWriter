@@ -263,8 +263,8 @@ public class EssayWriter implements ActionListener {
 					ReadableByteChannel rbc = Channels.newChannel(website2.openStream());
 					FileOutputStream fos = new FileOutputStream(new File("EssayWriterv" + version + ".jar"));
 					fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-					Runtime rt = Runtime.getRuntime();
-					Process pr = rt.exec("rm -f" + new File(EssayWriter.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).toString());
+					File currjar = new File("EssayWriterv" + currversion + ".jar");
+					currjar.delete();
 					System.exit(0);
 				}
 			} else if (rversion < rcurrversion) {
