@@ -1,3 +1,3 @@
-Changes in v1.3.1:
+Changes in v1.3.2:
 
-	- Fixed update window.
+	- Fixed preview window.
