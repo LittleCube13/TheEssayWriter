@@ -444,8 +444,8 @@ public class EssayWriter implements ActionListener {
 		
 		if (src == preview) {
 			String essay = outputwriter.createEssay();
-			previewframe.pack();
 			previewbox.setText(essay);
+			previewframe.pack();
 			previewframe.setVisible(true);
 		}
 		
