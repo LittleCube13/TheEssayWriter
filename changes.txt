@@ -1,5 +1,3 @@
-Changes in v1.3.5:
+Changes in v1.3.6:
 
-	- Fixed bug concerning the EssayWriter not deleting itself upon updating.
-
-	- Changed the text in the save before quitting window to be more clear.
+	- Added ^C as shortcut for Create > Essay.
