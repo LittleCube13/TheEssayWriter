@@ -16,6 +16,7 @@ public class EssayWriter implements ActionListener {
 	static KeyStroke ctrls = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK);
 	static KeyStroke ctrle = KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK);
 	static KeyStroke ctrlr = KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK);
+	static KeyStroke ctrlc = KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK);
 	static JFrame frame = new JFrame();
 	static JFrame fcframe = new JFrame();
 	static JFrame previewframe = new JFrame();
@@ -120,6 +121,7 @@ public class EssayWriter implements ActionListener {
 		bar.add(options);
 		create.add(cessay);
 		cessay.addActionListener(app);
+		cessay.setAccelerator(ctrlc);
 		file.add(open);
 		open.addActionListener(app);
 		open.setAccelerator(ctrlo);
