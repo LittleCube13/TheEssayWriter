@@ -235,14 +235,14 @@ public class EssayWriter implements ActionListener {
 	
 	static void checkForUpdate() {
 		try {
-			URL website = new URL("https://raw.githubusercontent.com/LittlestCube/TheEssayWriter/master/version.txt");
-			BufferedReader buffer = new BufferedReader(new InputStreamReader(website.openStream()));
-			int rversion = Integer.parseInt(buffer.readLine());
-			String version = buffer.readLine();
 			InputStream in = EssayWriter.class.getResourceAsStream("version.txt");
 			BufferedReader bufferr = new BufferedReader(new InputStreamReader(in));
 			int rcurrversion = Integer.parseInt(bufferr.readLine());
 			currversion = bufferr.readLine();
+			URL website = new URL("https://raw.githubusercontent.com/LittlestCube/TheEssayWriter/master/version.txt");
+			BufferedReader buffer = new BufferedReader(new InputStreamReader(website.openStream()));
+			int rversion = Integer.parseInt(buffer.readLine());
+			String version = buffer.readLine();
 			if (rcurrversion < rversion) {
 				JPanel mainPanel = new JPanel();
 				String[] buttons = { "Yes", "No" };

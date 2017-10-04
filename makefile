@@ -3,11 +3,11 @@ all:
 	make clean
 
 dev:
-	javac *.java
-	jar cvfe EssayWriter.jar EssayWriter *
+	javac src/*.java
+	jar cvfe EssayWriter.jar src.EssayWriter *
 
 clean:
-	rm *.class || continue
+	rm src/*.class || continue
 	rm leviathanyaml/*.class || continue
 
 clean-all:
