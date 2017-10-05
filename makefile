@@ -1,13 +1,13 @@
-all:
+iall:
 	make dev
 	make clean
 
 dev:
-	javac src/*.java
-	jar cvfe EssayWriter.jar src.EssayWriter *
+	javac *.java
+	jar cvfe EssayWriter.jar EssayWriter *
 
 clean:
-	rm src/*.class || continue
+	rm *.class || continue
 	rm leviathanyaml/*.class || continue
 
 clean-all:
