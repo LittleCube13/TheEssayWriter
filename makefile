@@ -3,6 +3,8 @@ iall:
 	make clean
 
 dev:
+	git submodule init
+	git submodule update
 	javac *.java
 	jar cvfe EssayWriter.jar EssayWriter *
 
