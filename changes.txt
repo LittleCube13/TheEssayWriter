@@ -1,3 +1,4 @@
-Changes in v1.3.6:
+Changes in v1.4.0:
 
-	- Added ^C as shortcut for Create > Essay.
+	- Made some changes to the Look and Feel system.
+	- Changed "Second, " to "Moreover, " and changed "Finally, " to "In addition, ". In the future, more complex transition hooks may be implemented.

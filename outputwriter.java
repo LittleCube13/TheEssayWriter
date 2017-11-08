@@ -51,37 +51,22 @@ class outputwriter extends EssayWriter {
 	public static String createEssay() {
 		String essay = "";
 		try {
-			String thesis1 = thesis.getText();
-			String parapoint1 = point1.getText();
-			String parapoint2 = point2.getText();
-			String parapoint3 = point3.getText();
-			String ex1 = exp1.getText();
-			String ex2 = exp2.getText();
-			String ex3 = exp3.getText();
-			String de1 = def1.getText();
-			String de2 = def2.getText();
-			String de3 = def3.getText();
-			String il1 = ill1.getText();
-			String il2 = ill2.getText();
-			String il3 = ill3.getText();
-			String intro1 = intro.getText();
-			String conclu1 = conclu.getText();
-			thesis1 = stripPunctuation(thesis1);
-			parapoint1 = stripPunctuation(parapoint1);
-			parapoint2 = stripPunctuation(parapoint2);
-			parapoint3 = stripPunctuation(parapoint3);
-			ex1 = stripPunctuation(ex1);
-			ex2 = stripPunctuation(ex2);
-			ex3 = stripPunctuation(ex3);
-			de1 = stripPunctuation(de1);
-			de2 = stripPunctuation(de2);
-			de3 = stripPunctuation(de3);
-			il1 = stripPunctuation(il1);
-			il2 = stripPunctuation(il2);
-			il3 = stripPunctuation(il3);
-			intro1 = stripPunctuation(intro1);
-			conclu1 = stripPunctuation(conclu1);
-			essay = "\t" + period(upper(intro1)) + " " + upper(thesis1) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + "\n\n\t" + "First, " + lower(thesis1) + " because " + lower(period(parapoint1)) + " " + period(upper(ex1)) + " " + period(upper(de1)) + " " + period(upper(il1)) + "\n\n\t" + "Second, " + lower(thesis1) + " because " + lower(period(parapoint2)) + " " + period(upper(ex2)) + " " + period(upper(de2)) + " " + period(upper(il2)) + "\n\n\t" + "Finally, " + lower(thesis1) + " because " + lower(period(parapoint3)) + " " + period(upper(ex3)) + " " + period(upper(de3)) + " " + period(upper(il3)) + "\n\n\t" + upper(thesis1) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + " " + period(upper(conclu1));
+			String thesis1 = stripPunctuation(thesis.getText());
+			String parapoint1 = stripPunctuation(point1.getText());
+			String parapoint2 = stripPunctuation(point2.getText());
+			String parapoint3 = stripPunctuation(point3.getText());
+			String ex1 = stripPunctuation(exp1.getText());
+			String ex2 = stripPunctuation(exp2.getText());
+			String ex3 = stripPunctuation(exp3.getText());
+			String de1 = stripPunctuation(def1.getText());
+			String de2 = stripPunctuation(def2.getText());
+			String de3 = stripPunctuation(def3.getText());
+			String il1 = stripPunctuation(ill1.getText());
+			String il2 = stripPunctuation(ill2.getText());
+			String il3 = stripPunctuation(ill3.getText());
+			String intro1 = stripPunctuation(intro.getText());
+			String conclu1 = stripPunctuation(conclu.getText());
+			essay = "\t" + period(upper(intro1)) + " " + upper(thesis1) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + "\n\n\t" + "First, " + lower(thesis1) + " because " + lower(period(parapoint1)) + " " + period(upper(ex1)) + " " + period(upper(de1)) + " " + period(upper(il1)) + "\n\n\t" + "Moreover, " + lower(thesis1) + " because " + lower(period(parapoint2)) + " " + period(upper(ex2)) + " " + period(upper(de2)) + " " + period(upper(il2)) + "\n\n\t" + "In addition, " + lower(thesis1) + " because " + lower(period(parapoint3)) + " " + period(upper(ex3)) + " " + period(upper(de3)) + " " + period(upper(il3)) + "\n\n\t" + upper(thesis1) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + " " + period(upper(conclu1));
 		} catch (Exception e) { System.err.println("Crap happened."); }
 	return essay;
 	}

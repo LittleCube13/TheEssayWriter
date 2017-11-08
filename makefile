@@ -1,12 +1,14 @@
-iall:
-	make dev
-	make clean
+all: submodule dev clean
+
+offline: dev
 
 dev:
-	git submodule init
-	git submodule update
 	javac *.java
 	jar cvfe EssayWriter.jar EssayWriter *
+
+submodule:
+	git submodule init
+	git submodule update
 
 clean:
 	rm *.class || continue
