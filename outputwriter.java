@@ -2,6 +2,17 @@ import java.io.*;
 
 class outputwriter extends EssayWriter {
 	
+	static String[] transitionWords = {"Moreover ", "Furthermore ", "In addition to "}
+	
+	//transitions
+	static String firstParaTransition = transitionWords[0];
+	static String secondParaTransition = transitionWords[1];
+	static String thirdParaTransition = transitionWords[2];
+	
+	
+	
+	
+	
 	static int c;
 	static boolean first;
 	
@@ -66,7 +77,7 @@ class outputwriter extends EssayWriter {
 			String il3 = ill3.getText();
 			String intro1 = intro.getText();
 			String conclu1 = conclu.getText();
-			essay = "\t" + period(upper(intro1)) + " " + upper(thesis1) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + "\n\n\t" + "First, " + lower(thesis1) + " because " + lower(period(parapoint1)) + " " + period(upper(ex1)) + " " + period(upper(de1)) + " " + period(upper(il1)) + "\n\n\t" + "Moreover, " + lower(thesis1) + " because " + lower(period(parapoint2)) + " " + period(upper(ex2)) + " " + period(upper(de2)) + " " + period(upper(il2)) + "\n\n\t" + "Furthermore, " + lower(thesis1) + " because " + lower(period(parapoint3)) + " " + period(upper(ex3)) + " " + period(upper(de3)) + " " + period(upper(il3)) + "\n\n\t" + upper(thesis1) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + " " + period(upper(conclu1));
+			essay = "\t" + period(upper(intro1)) + " " + upper(thesis1) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + "\n\n\t" + firstParaTransition + lower(thesis1) + " because " + lower(period(parapoint1)) + " " + period(upper(ex1)) + " " + period(upper(de1)) + " " + period(upper(il1)) + "\n\n\t" + secondParaTransition + lower(thesis1) + " because " + lower(period(parapoint2)) + " " + period(upper(ex2)) + " " + period(upper(de2)) + " " + period(upper(il2)) + "\n\n\t" + thirdParaTransition + lower(thesis1) + " because " + lower(period(parapoint3)) + " " + period(upper(ex3)) + " " + period(upper(de3)) + " " + period(upper(il3)) + "\n\n\t" + upper(thesis1) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + " " + period(upper(conclu1));
 		} catch (Exception e) { System.err.println("Crap happened."); }
 	return essay;
 	}
