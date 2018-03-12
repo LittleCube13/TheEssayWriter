@@ -6,6 +6,7 @@ import javax.swing.filechooser.*;
 import java.nio.*;
 import java.nio.channels.*;
 import java.net.*;
+import java.lang.reflect.*;
 
 public class EssayWriter implements ActionListener {
 	
@@ -275,7 +276,7 @@ public class EssayWriter implements ActionListener {
 		} catch (Exception e) { System.err.println("Whoops! Error: " + e.toString()); }
 	}
 	
-	static void askToSave() {
+	public static void askToSave() {
 		String[] options = { "Save and Quit", "Quit Without Saving", "Cancel" };
 		int n = JOptionPane.showOptionDialog(frame, "Would you like to save before you exit?", "Save?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 		if (n == JOptionPane.YES_OPTION) {

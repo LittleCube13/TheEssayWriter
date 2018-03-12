@@ -1,8 +1,8 @@
-all: submodule dev clean
+all: dev clean
 
 offline: dev
 
-dev:
+dev: submodule
 	javac *.java
 	jar cvfe EssayWriter.jar EssayWriter *
 
