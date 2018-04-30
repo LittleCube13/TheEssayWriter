@@ -9,11 +9,12 @@ dev: submodule
 submodule:
 	git submodule init
 	git submodule update
+	git submodule foreach git pull origin master
 
 clean:
 	rm *.class || continue
-	rm leviathanyaml/*.class || continue
+	rm -rf leviathanyaml || continue
 
 clean-all:
 	make clean
-	rm EssayWriter.jar || continue
+	rm *.jar || continue

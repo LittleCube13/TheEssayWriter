@@ -69,6 +69,8 @@ public class EssayWriter implements ActionListener {
 	static JMenu options = new JMenu("Options");
 	static JMenuItem cessay = new JMenuItem("Essay");
 	static JMenu laf = new JMenu("Look and Feel");
+	static JCheckBoxMenuItem deleteOnUpdate = new JCheckBoxMenuItem("Delete Old Version upon Updating");
+	static JCheckBoxMenuItem openLastProject = new JCheckBoxMenuItem("Open Last Project");
 	static JMenuItem open = new JMenuItem("Open");
 	static JMenuItem save = new JMenuItem("Save");
 	static JMenuItem preview = new JMenuItem("Preview");
@@ -77,7 +79,6 @@ public class EssayWriter implements ActionListener {
 	public static boolean introbool;
 	public static boolean conclusionbool;
 	public static int paragraphsint;
-	public static boolean openLastProject = false;
 	static javax.swing.JCheckBox jCheckBox1;
 	static javax.swing.JCheckBox jCheckBox2;
 	static javax.swing.JLabel jLabel1;
@@ -89,148 +90,144 @@ public class EssayWriter implements ActionListener {
 	static JScrollPane scrollPane = new JScrollPane(previewbox);
 	static boolean initDone;
 	
-	public EssayWriter() {
-	}
-	
 	public static void main(String args[]) {
 		if (!initDone) {
-		if (UIManager.getSystemLookAndFeelClassName() == "com.apple.laf.AquaLookAndFeel") {
-								sys.setText("Mac OS X");
-								sys.setSelected(true);
-								metal.setSelected(false);
-			} else {
-			sys.setText("System");
-			sys.setSelected(false);
-			metal.setSelected(true);
-		}
-		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		System.setProperty("apple.eawt.quitStrategy", "DO_NOTHING_ON_CLOSE");
-		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent ev) {
-				askToSave();
+			if (UIManager.getSystemLookAndFeelClassName() == "com.apple.laf.AquaLookAndFeel") {
+									sys.setText("Mac OS X");
+									sys.setSelected(true);
+									metal.setSelected(false);
+				} else {
+				sys.setText("System");
+				sys.setSelected(false);
+				metal.setSelected(true);
 			}
-		});
-		checkForUpdate();
-		previewframe.add(scrollPane);
-		previewframe.setTitle("Preview");
-		previewbox.setEnabled(false);
-		previewbox.setLineWrap(true);
-		previewbox.setWrapStyleWord(true);
-		frame.add(tabp);
-		bar.add(file);
-		bar.add(create);
-		bar.add(options);
-		create.add(cessay);
-		cessay.addActionListener(app);
-		cessay.setAccelerator(ctrlc);
-		file.add(open);
-		open.addActionListener(app);
-		open.setAccelerator(ctrlo);
-		file.add(save);
-		options.add(laf);
-		laf.add(sys);
-		laf.add(metal);
-		laf.add(nimbus);
-		g.add(sys);
-		g.add(metal);
-		g.add(nimbus);
-		sys.addActionListener(app);
-		metal.addActionListener(app);
-		nimbus.addActionListener(app);
-		save.addActionListener(app);
-		save.setAccelerator(ctrls);
-		file.add(preview);
-		file.addSeparator();
-		file.add(exit);
-		preview.addActionListener(app);
-		preview.setAccelerator(ctrlr);
-		exit.addActionListener(app);
-		exit.setAccelerator(ctrlq);
-		frame.setSize(500,500);
-		frame.setJMenuBar(bar);
-		tabp.addTab("Thesis-Creator", tab1);
-		tabp.addTab("Paragraphs", tab2);
-		tabp.addTab("Intro/Conclusion", tab3);
-		tab1.add(thesis);
-		tab1.add(lthesis);
-		tab1.add(lthesis2);
-		tab1.add(lthesis3);
-		tab1.add(point1);
-		tab1.add(point2);
-		tab1.add(point3);
-		tab1.add(lpoints);
-		tab1.add(lpoints2);
-		tab1.add(lpoints3);
-		tab1.add(lpoints4);
-		tab2.add(exp1);
-		tab2.add(def1);
-		tab2.add(ill1);
-		tab2.add(lpar1);
-		tab2.add(exp2);
-		tab2.add(def2);
-		tab2.add(ill2);
-		tab2.add(lpar2);
-		tab2.add(exp3);
-		tab2.add(def3);
-		tab2.add(ill3);
-		tab2.add(lparag1);
-		tab2.add(lparag2);
-		tab2.add(lparag3);
-		tab3.add(intro);
-		tab3.add(conclu);
-		intro.setLineWrap(true);
-		intro.setWrapStyleWord(true);
-		conclu.setLineWrap(true);
-		conclu.setWrapStyleWord(true);
-		tab3.add(lintro);
-		tab3.add(lintro2);
-		tab3.add(lintro3);
-		tab3.add(lintro4);
-		tab3.add(lintro5);
-		frame.setResizable(false);
-		frame.setTitle("The Ess-inator 3000 v" + currversion);
-		frame.setVisible(true);
-		fc.setFileFilter(new FileNameExtensionFilter("Essay Projects (.essay)", "essay"));
-		fc.setAcceptAllFileFilterUsed(false);
-		fcsa.setFileFilter(new FileNameExtensionFilter("PlainText File (.txt)", "txt"));
-		fcsa.setAcceptAllFileFilterUsed(false);
-		if (args.length > 0) {
-			f = new File(args[0]);
-			thesis.setText(EssayProject.getMainPoint(f));
-			String[] temp;
-			String tempp;
-			temp = EssayProject.getThreePoints(f);
-			point1.setText(temp[0]);
-			point2.setText(temp[1]);
-			point3.setText(temp[2]);
-			temp = EssayProject.getExplanations(f);
-			exp1.setText(temp[0]);
-			exp2.setText(temp[1]);
-			exp3.setText(temp[2]);
-			temp = EssayProject.getDefenses(f);
-			def1.setText(temp[0]);
-			def2.setText(temp[1]);
-			def3.setText(temp[2]);
-			temp = EssayProject.getIllustrations(f);
-			ill1.setText(temp[0]);
-			ill2.setText(temp[1]);
-			ill3.setText(temp[2]);
-			tempp = EssayProject.getIntro(f);
-			intro.setText(tempp);
-			tempp = EssayProject.getConclusion(f);
-			conclu.setText(tempp);
-		}
-		initDone = true;
-		
-		if (!openLastProject) {
-/*          JOptionPane dia = new JOptionPane();
-			int result = JOptionPane.showOptionDialog(null, createNewProjectPanel(), "Create Project Properties", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, new String[]{ "Done" }, "default");
-			if (result == JOptionPane.OK_OPTION) {
-				introbool = jCheckBox1.isSelected();
-				conclusionbool = jCheckBox2.isSelected();
-				paragraphsint = (int) jSpinner1.getValue();
+			frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+			System.setProperty("apple.eawt.quitStrategy", "DO_NOTHING_ON_CLOSE");
+			frame.addWindowListener(new WindowAdapter() {
+				public void windowClosing(WindowEvent ev) {
+					askToSave();
+				}
+			});
+			prfs.createNewPreferences();
+			if (prfs.prefsExists()) {
+				if (prfs.prefExists("deleteOnUpdate")) {
+					deleteOnUpdate.setSelected(Boolean.parseBoolean(prfs.getPref("deleteOnUpdate")));
+				} else {
+					prfs.setPref("deleteOnUpdate", String.valueOf(deleteOnUpdate.getState()));
+				}
+				if (prfs.prefExists("openLastProject")) {
+					openLastProject.setSelected(Boolean.parseBoolean(prfs.getPref("openLastProject")));
+				} else {
+					prfs.setPref("openLastProject", String.valueOf(openLastProject.getState()));
+				}
 			}
-*/      }
+			checkForUpdate();
+			previewframe.add(scrollPane);
+			previewframe.setTitle("Preview");
+			previewbox.setEnabled(false);
+			previewbox.setLineWrap(true);
+			previewbox.setWrapStyleWord(true);
+			frame.add(tabp);
+			bar.add(file);
+			bar.add(create);
+			bar.add(options);
+			create.add(cessay);
+			cessay.addActionListener(app);
+			cessay.setAccelerator(ctrlc);
+			file.add(open);
+			open.addActionListener(app);
+			open.setAccelerator(ctrlo);
+			file.add(save);
+			options.add(openLastProject);
+			openLastProject.addActionListener(app);
+			options.add(deleteOnUpdate);
+			deleteOnUpdate.addActionListener(app);
+			options.addSeparator();
+			options.add(laf);
+			laf.add(sys);
+			laf.add(metal);
+			laf.add(nimbus);
+			g.add(sys);
+			g.add(metal);
+			g.add(nimbus);
+			sys.addActionListener(app);
+			metal.addActionListener(app);
+			nimbus.addActionListener(app);
+			save.addActionListener(app);
+			save.setAccelerator(ctrls);
+			file.add(preview);
+			file.addSeparator();
+			file.add(exit);
+			preview.addActionListener(app);
+			preview.setAccelerator(ctrlr);
+			exit.addActionListener(app);
+			exit.setAccelerator(ctrlq);
+			frame.setSize(500,500);
+			frame.setJMenuBar(bar);
+			tabp.addTab("Thesis", tab1);
+			tabp.addTab("Paragraphs", tab2);
+			tabp.addTab("Intro/Conclusion", tab3);
+			tab1.add(thesis);
+			tab1.add(lthesis);
+			tab1.add(lthesis2);
+			tab1.add(lthesis3);
+			tab1.add(point1);
+			tab1.add(point2);
+			tab1.add(point3);
+			tab1.add(lpoints);
+			tab1.add(lpoints2);
+			tab1.add(lpoints3);
+			tab1.add(lpoints4);
+			tab2.add(exp1);
+			tab2.add(def1);
+			tab2.add(ill1);
+			tab2.add(lpar1);
+			tab2.add(exp2);
+			tab2.add(def2);
+			tab2.add(ill2);
+			tab2.add(lpar2);
+			tab2.add(exp3);
+			tab2.add(def3);
+			tab2.add(ill3);
+			tab2.add(lparag1);
+			tab2.add(lparag2);
+			tab2.add(lparag3);
+			tab3.add(intro);
+			tab3.add(conclu);
+			intro.setLineWrap(true);
+			intro.setWrapStyleWord(true);
+			conclu.setLineWrap(true);
+			conclu.setWrapStyleWord(true);
+			tab3.add(lintro);
+			tab3.add(lintro2);
+			tab3.add(lintro3);
+			tab3.add(lintro4);
+			tab3.add(lintro5);
+			frame.setResizable(false);
+			frame.setTitle("The Ess-inator 3000 v" + currversion);
+			frame.setVisible(true);
+			fc.setFileFilter(new FileNameExtensionFilter("Essay Projects (.essay)", "essay"));
+			fc.setAcceptAllFileFilterUsed(false);
+			fcsa.setFileFilter(new FileNameExtensionFilter("PlainText File (.txt)", "txt"));
+			fcsa.setAcceptAllFileFilterUsed(false);
+			if (args.length > 0) {
+				File f = new File(args[0]);
+				_open(f);
+			} else if (prfs.prefExists("openLastProject") && prfs.prefExists("lastProject")) {
+				File f = new File(prfs.getPref("lastProject"));
+				_open(f);
+			}
+			initDone = true;
+			
+			if (openLastProject.getState() == false) {
+	/*          JOptionPane dia = new JOptionPane();
+				int result = JOptionPane.showOptionDialog(null, createNewProjectPanel(), "Create Project Properties", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, new String[]{ "Done" }, "default");
+				if (result == JOptionPane.OK_OPTION) {
+					introbool = jCheckBox1.isSelected();
+					conclusionbool = jCheckBox2.isSelected();
+					paragraphsint = (int) jSpinner1.getValue();
+				}
+	*/      }
 		} else { frame.setVisible(true); }
 	}
 	
@@ -264,14 +261,25 @@ public class EssayWriter implements ActionListener {
 				if (result == JOptionPane.YES_OPTION) {
 					URL website2 = new URL("https://github.com/LittlestCube/TheEssayWriter/releases/download/v" + version + "/EssayWriterv" + version + ".jar");
 					ReadableByteChannel rbc = Channels.newChannel(website2.openStream());
-					FileOutputStream fos = new FileOutputStream(new File("EssayWriterv" + version + ".jar"));
+					File newjar = new File("EssayWriterv" + version + ".jar");
+					FileOutputStream fos = new FileOutputStream(newjar);
 					fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-					File currjar = new File("EssayWriterv" + currversion + ".jar");
-					currjar.delete();
+					if (prfs.getPref("deleteOnUpdate").equals("true")) {
+						File currjar = new File("EssayWriterv" + currversion + ".jar");
+						if (!currjar.exists()) {
+							System.out.println("Whoops! Error in function checkForUpdate():\n\n\tYou deleted, or changed the name of the EssayWriter file. There's nothing inherently wrong with that, it's just that now I cannot delete it for you, so you'll have to find it and delete it yourself instead. Thank you!");
+							tareat.setText("Whoops! Error in function checkForUpdate():\n\n\tYou deleted, or changed the name of the EssayWriter file. There's nothing inherently wrong with that, it's just that now I cannot delete it for you, so you'll have to find it and delete it yourself instead. Thank you!");
+							JOptionPane.showMessageDialog(frame, mainPanel, "You changed the name of the file", JOptionPane.ERROR_MESSAGE);
+						} else {
+							currjar.delete();
+						}
+					}
+					Desktop.getDesktop().open(newjar);
 					System.exit(0);
 				}
 			} else if (rversion < rcurrversion) {
 				System.out.println("Whoa, wait, are you from the future?");
+				JOptionPane.showMessageDialog(frame, "Whoa, wait, are you from the future?", "MomCorp", JOptionPane.WARNING_MESSAGE);
 			}
 		} catch (Exception e) { System.err.println("Whoops! Error: " + e.toString()); }
 	}
@@ -378,68 +386,78 @@ public class EssayWriter implements ActionListener {
 		return pane;
 	}
 	
-	static void open() {
+	static void _open(File f) {
+		thesis.setText(EssayProject.getMainPoint(f));
+		String[] temp;
+		String tempp;
+		temp = EssayProject.getThreePoints(f);
+		point1.setText(temp[0]);
+		point2.setText(temp[1]);
+		point3.setText(temp[2]);
+		temp = EssayProject.getExplanations(f);
+		exp1.setText(temp[0]);
+		exp2.setText(temp[1]);
+		exp3.setText(temp[2]);
+		temp = EssayProject.getDefenses(f);
+		def1.setText(temp[0]);
+		def2.setText(temp[1]);
+		def3.setText(temp[2]);
+		temp = EssayProject.getIllustrations(f);
+		ill1.setText(temp[0]);
+		ill2.setText(temp[1]);
+		ill3.setText(temp[2]);
+		tempp = EssayProject.getIntro(f);
+		intro.setText(tempp);
+		tempp = EssayProject.getConclusion(f);
+		conclu.setText(tempp);
+		prfs.setPref("lastProject", f.toString());
+	}
+	
+	static void _open(String ff) {
+		File f = new File(ff);
+		_open(f);
+	}
+	
+	void open() {
 		SwingUtilities.updateComponentTreeUI(fc);
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		int fcs = fc.showOpenDialog(fcframe);
 		
 		if (fcs == JFileChooser.APPROVE_OPTION) {
 			f = fc.getSelectedFile();
-			thesis.setText(EssayProject.getMainPoint(f));
-			String[] temp;
-			String tempp;
-			temp = EssayProject.getThreePoints(f);
-			point1.setText(temp[0]);
-			point2.setText(temp[1]);
-			point3.setText(temp[2]);
-			temp = EssayProject.getExplanations(f);
-			exp1.setText(temp[0]);
-			exp2.setText(temp[1]);
-			exp3.setText(temp[2]);
-			temp = EssayProject.getDefenses(f);
-			def1.setText(temp[0]);
-			def2.setText(temp[1]);
-			def3.setText(temp[2]);
-			temp = EssayProject.getIllustrations(f);
-			ill1.setText(temp[0]);
-			ill2.setText(temp[1]);
-			ill3.setText(temp[2]);
-			tempp = EssayProject.getIntro(f);
-			intro.setText(tempp);
-			tempp = EssayProject.getConclusion(f);
-			conclu.setText(tempp);
+			_open(f);
 		}
 	}
 	
-	static void save() {
+	void save() {
 		SwingUtilities.updateComponentTreeUI(fc);
-			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-			int fcs = fc.showSaveDialog(fcframe);
-				
-			if (fcs == JFileChooser.APPROVE_OPTION) {
-				f = fc.getSelectedFile();
-				if (!f.toString().endsWith(".essay")) {
-					f = new File(f.toString() + ".essay");
-				}
-				EssayProject.saveProject(f);
-				System.out.println(f);
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		int fcs = fc.showSaveDialog(fcframe);
+			
+		if (fcs == JFileChooser.APPROVE_OPTION) {
+			f = fc.getSelectedFile();
+			if (!f.toString().endsWith(".essay")) {
+				f = new File(f.toString() + ".essay");
 			}
+			EssayProject.saveProject(f);
+			System.out.println(f);
 		}
+	}
 	
 	static int _save() {
 		SwingUtilities.updateComponentTreeUI(fc);
-			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-			int fcs = fc.showSaveDialog(fcframe);
-				
-			if (fcs == JFileChooser.APPROVE_OPTION) {
-				f = fc.getSelectedFile();
-				if (!f.toString().endsWith(".essay")) {
-					f = new File(f.toString() + ".essay");
-				}
-				EssayProject.saveProject(f);
-				System.out.println(f);
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		int fcs = fc.showSaveDialog(fcframe);
+			
+		if (fcs == JFileChooser.APPROVE_OPTION) {
+			f = fc.getSelectedFile();
+			if (!f.toString().endsWith(".essay")) {
+				f = new File(f.toString() + ".essay");
 			}
-		return fcs;
+			EssayProject.saveProject(f);
+			System.out.println(f);
+		}
+	return fcs;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -503,6 +521,14 @@ public class EssayWriter implements ActionListener {
 			SwingUtilities.updateComponentTreeUI(frame);
 			SwingUtilities.updateComponentTreeUI(previewframe);
 		} catch (Exception exc) {}
+		}
+		
+		if (src == openLastProject) {
+			prfs.setPref("openLastProject", Boolean.toString(openLastProject.getState()));
+		}
+		
+		if (src == deleteOnUpdate) {
+			prfs.setPref("deleteOnUpdate", Boolean.toString(deleteOnUpdate.getState()));
 		}
 		
 		if (src == exit) {
