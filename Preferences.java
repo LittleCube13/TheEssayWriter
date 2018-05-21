@@ -3,12 +3,24 @@ import java.awt.event.*;
 
 import leviathanyaml.*;
 
-public class Preferences {
+public class Preferences extends EssayWriter {
 	
 	static File home = new File(System.getProperty("user.home"));
 	static File prefs = new File(home + File.separator + ".essaywriter.yml");
-	static GenericYaml prefsyml = new GenericYaml(prefs);
+	static GenericYaml prefsyml;
 	static String[][] prefsarr;
+	
+	public Preferences(File filefilefile) {
+		prefs = filefilefile;
+		try {
+			prefsyml = new GenericYaml(prefs);
+			if (!prefsExists()) {
+				save();
+			} else {
+				load();
+			}
+		} catch (Exception e) { System.out.println("Whoops! Error in constructor Preferences(): " + e.toString()); }
+	}
 	
 	public static boolean prefExists(String key) {
 		if (YamlUtil.getKey(key, prefsarr) != -1) {
@@ -20,16 +32,6 @@ public class Preferences {
 	
 	public static boolean prefsExists() {
 		return prefs.exists();
-	}
-	
-	public void createNewPreferences() {
-		try {
-			if (!prefsExists()) {
-				save();
-			} else {
-				load();
-			}
-		} catch (Exception e) { System.out.println("Whoops! Error in function createNewPreferences(): " + e.toString()); }
 	}
 	
 	public String getPref(String key) {

@@ -8,6 +8,8 @@ import java.nio.channels.*;
 import java.net.*;
 import java.lang.reflect.*;
 
+import leviathanyaml.*;
+
 public class EssayWriter implements ActionListener {
 	
 	static EssayWriter app = new EssayWriter();
@@ -213,7 +215,7 @@ public class EssayWriter implements ActionListener {
 			if (args.length > 0) {
 				File f = new File(args[0]);
 				_open(f);
-			} else if (prfs.prefExists("openLastProject") && prfs.prefExists("lastProject")) {
+			} else if (prfs.prefExists("lastProject") && prfs.getPref("openLastProject").equals("true")) {
 				File f = new File(prfs.getPref("lastProject"));
 				_open(f);
 			}
@@ -387,29 +389,23 @@ public class EssayWriter implements ActionListener {
 	}
 	
 	static void _open(File f) {
-		thesis.setText(EssayProject.getMainPoint(f));
-		String[] temp;
-		String tempp;
-		temp = EssayProject.getThreePoints(f);
-		point1.setText(temp[0]);
-		point2.setText(temp[1]);
-		point3.setText(temp[2]);
-		temp = EssayProject.getExplanations(f);
-		exp1.setText(temp[0]);
-		exp2.setText(temp[1]);
-		exp3.setText(temp[2]);
-		temp = EssayProject.getDefenses(f);
-		def1.setText(temp[0]);
-		def2.setText(temp[1]);
-		def3.setText(temp[2]);
-		temp = EssayProject.getIllustrations(f);
-		ill1.setText(temp[0]);
-		ill2.setText(temp[1]);
-		ill3.setText(temp[2]);
-		tempp = EssayProject.getIntro(f);
-		intro.setText(tempp);
-		tempp = EssayProject.getConclusion(f);
-		conclu.setText(tempp);
+		EssayProject ep = new EssayProject(f);
+		ep.read();
+		thesis.setText(ep.entry[1][YamlUtil.getKey("mainPoint", ep.entry)]);
+		point1.setText(ep.entry[1][YamlUtil.getKey("point1", ep.entry)]);
+		point2.setText(ep.entry[1][YamlUtil.getKey("point2", ep.entry)]);
+		point3.setText(ep.entry[1][YamlUtil.getKey("point3", ep.entry)]);
+		exp1.setText(ep.entry[1][YamlUtil.getKey("exp1", ep.entry)]);
+		exp2.setText(ep.entry[1][YamlUtil.getKey("exp2", ep.entry)]);
+		exp3.setText(ep.entry[1][YamlUtil.getKey("exp3", ep.entry)]);
+		def1.setText(ep.entry[1][YamlUtil.getKey("def1", ep.entry)]);
+		def2.setText(ep.entry[1][YamlUtil.getKey("def2", ep.entry)]);
+		def3.setText(ep.entry[1][YamlUtil.getKey("def3", ep.entry)]);
+		ill1.setText(ep.entry[1][YamlUtil.getKey("ill1", ep.entry)]);
+		ill2.setText(ep.entry[1][YamlUtil.getKey("ill2", ep.entry)]);
+		ill3.setText(ep.entry[1][YamlUtil.getKey("ill3", ep.entry)]);
+		intro.setText(ep.entry[1][YamlUtil.getKey("introduction", ep.entry)]);
+		conclu.setText(ep.entry[1][YamlUtil.getKey("conclusion", ep.entry)]);
 		prfs.setPref("lastProject", f.toString());
 	}
 	
@@ -439,7 +435,8 @@ public class EssayWriter implements ActionListener {
 			if (!f.toString().endsWith(".essay")) {
 				f = new File(f.toString() + ".essay");
 			}
-			EssayProject.saveProject(f);
+			EssayProject ep = new EssayProject(f);
+			ep.write();
 			System.out.println(f);
 		}
 	}
@@ -454,7 +451,8 @@ public class EssayWriter implements ActionListener {
 			if (!f.toString().endsWith(".essay")) {
 				f = new File(f.toString() + ".essay");
 			}
-			EssayProject.saveProject(f);
+			EssayProject ep = new EssayProject(f);
+			ep.write();
 			System.out.println(f);
 		}
 	return fcs;
