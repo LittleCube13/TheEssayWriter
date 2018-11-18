@@ -1,17 +1,16 @@
 import java.io.*;
+import java.util.*;
 
 class outputwriter extends EssayWriter {
 	
+
 	static String[] transitionWords = {"Moreover ", "Furthermore ", "In addition to "}
 	
 	//transitions
 	static String firstParaTransition = transitionWords[0];
 	static String secondParaTransition = transitionWords[1];
 	static String thirdParaTransition = transitionWords[2];
-	
-	
-	
-	
+
 	
 	static int c;
 	static boolean first;
@@ -62,6 +61,27 @@ class outputwriter extends EssayWriter {
 	public static String createEssay() {
 		String essay = "";
 		try {
+			InputStream in = EssayWriter.class.getResourceAsStream("secondparagraphtransitions.txt");
+			BufferedReader buffr = new BufferedReader(new InputStreamReader(in));
+			List<String> lines = new ArrayList<String>();
+			String line = buffr.readLine();
+			while (line != null) {
+				lines.add(line);
+				line = buffr.readLine();
+			}
+			secondTransitionWords = lines.toArray(new String[lines.size()]);
+			InputStream inp = EssayWriter.class.getResourceAsStream("thirdparagraphtransitions.txt");
+			BufferedReader buffer = new BufferedReader(new InputStreamReader(inp));
+			List<String> liness = new ArrayList<String>();
+			String linee = buffer.readLine();
+			while (linee != null) {
+				liness.add(linee);
+				linee = buffer.readLine();
+			}
+			thirdTransitionWords = liness.toArray(new String[liness.size()]);
+			Random rand = new Random();
+			secondParaTransition = secondTransitionWords[rand.nextInt(secondTransitionWords.length)];
+			thirdParaTransition = thirdTransitionWords[0];
 			String thesis1 = thesis.getText();
 			String parapoint1 = point1.getText();
 			String parapoint2 = point2.getText();
@@ -77,8 +97,11 @@ class outputwriter extends EssayWriter {
 			String il3 = ill3.getText();
 			String intro1 = intro.getText();
 			String conclu1 = conclu.getText();
+
 			essay = "\t" + period(upper(intro1)) + " " + upper(thesis1) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + "\n\n\t" + firstParaTransition + lower(thesis1) + " because " + lower(period(parapoint1)) + " " + period(upper(ex1)) + " " + period(upper(de1)) + " " + period(upper(il1)) + "\n\n\t" + secondParaTransition + lower(thesis1) + " because " + lower(period(parapoint2)) + " " + period(upper(ex2)) + " " + period(upper(de2)) + " " + period(upper(il2)) + "\n\n\t" + thirdParaTransition + lower(thesis1) + " because " + lower(period(parapoint3)) + " " + period(upper(ex3)) + " " + period(upper(de3)) + " " + period(upper(il3)) + "\n\n\t" + upper(thesis1) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + " " + period(upper(conclu1));
 		} catch (Exception e) { System.err.println("Crap happened."); }
+
+
 	return essay;
 	}
 }
