@@ -2,31 +2,30 @@ import java.io.*;
 import java.util.*;
 
 class outputwriter extends EssayWriter {
-	
 
-	static String[] transitionWords = {"Moreover ", "Furthermore ", "In addition to "}
-	
-	//transitions
-	static String firstParaTransition = transitionWords[0];
-	static String secondParaTransition = transitionWords[1];
-	static String thirdParaTransition = transitionWords[2];
+	static String[] firstTransitionWords;
+	static String[] secondTransitionWords;
+	static String[] thirdTransitionWords;
 
-	
+	static String firstParaTransition;
+	static String secondParaTransition;
+	static String thirdParaTransition;
+
 	static int c;
 	static boolean first;
-	
+
 	static String upper(String str) {
 		if (str.equals("")) { return str; }
 		str = str.substring(0, 1).toUpperCase() + str.substring(1);
 		return str;
 	}
-	
+
 	static String lower(String str) {
 		if (str.equals("")) { return str; }
 		str = str.substring(0, 1).toLowerCase() + str.substring(1);
 		return str;
 	}
-	
+
 	static String period(String str) {
 		if (str.equals("")) { return str; }
 		if (!str.endsWith(".")) {
@@ -34,7 +33,7 @@ class outputwriter extends EssayWriter {
 		}
 		return str;
 	}
-	
+
 	static String comma(String str) {
 		if (str.equals("")) { return str; }
 		if (!str.endsWith(",")) {
@@ -42,7 +41,7 @@ class outputwriter extends EssayWriter {
 		}
 		return str;
 	}
-	
+
 	static String stripPunctuation(String str) {
 		if (str.equals("")) { return str; }
 		char c = str.charAt(0);
@@ -57,10 +56,21 @@ class outputwriter extends EssayWriter {
 		}
 		return str;
 	}
-	
+
 	public static String createEssay() {
 		String essay = "";
 		try {
+
+      InputStream in = EssayWriter.class.getResourceAsStream("firstParagraphTransitions.txt");
+			BufferedReader buffr = new BufferedReader(new InputStreamReader(in));
+			List<String> lines = new ArrayList<String>();
+			String line = buffr.readLine();
+			while (line != null) {
+				lines.add(line);
+				line = buffr.readLine();
+			}
+      firstTransitionWords = lines.toArray(new String[lines.size()]);
+
 			InputStream in = EssayWriter.class.getResourceAsStream("secondparagraphtransitions.txt");
 			BufferedReader buffr = new BufferedReader(new InputStreamReader(in));
 			List<String> lines = new ArrayList<String>();
@@ -70,6 +80,7 @@ class outputwriter extends EssayWriter {
 				line = buffr.readLine();
 			}
 			secondTransitionWords = lines.toArray(new String[lines.size()]);
+
 			InputStream inp = EssayWriter.class.getResourceAsStream("thirdparagraphtransitions.txt");
 			BufferedReader buffer = new BufferedReader(new InputStreamReader(inp));
 			List<String> liness = new ArrayList<String>();
@@ -79,6 +90,10 @@ class outputwriter extends EssayWriter {
 				linee = buffer.readLine();
 			}
 			thirdTransitionWords = liness.toArray(new String[liness.size()]);
+
+      Random rand = new Random();
+			firstParaTransition = secondTransitionWords[rand.nextInt(firstTransitionWords.length)];
+
 			Random rand = new Random();
 			secondParaTransition = secondTransitionWords[rand.nextInt(secondTransitionWords.length)];
 			thirdParaTransition = thirdTransitionWords[0];
@@ -97,11 +112,8 @@ class outputwriter extends EssayWriter {
 			String il3 = ill3.getText();
 			String intro1 = intro.getText();
 			String conclu1 = conclu.getText();
-
-			essay = "\t" + period(upper(intro1)) + " " + upper(thesis1) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + "\n\n\t" + firstParaTransition + lower(thesis1) + " because " + lower(period(parapoint1)) + " " + period(upper(ex1)) + " " + period(upper(de1)) + " " + period(upper(il1)) + "\n\n\t" + secondParaTransition + lower(thesis1) + " because " + lower(period(parapoint2)) + " " + period(upper(ex2)) + " " + period(upper(de2)) + " " + period(upper(il2)) + "\n\n\t" + thirdParaTransition + lower(thesis1) + " because " + lower(period(parapoint3)) + " " + period(upper(ex3)) + " " + period(upper(de3)) + " " + period(upper(il3)) + "\n\n\t" + upper(thesis1) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + " " + period(upper(conclu1));
-		} catch (Exception e) { System.err.println("Crap happened."); }
-
-
+			essay = "\t" + period(upper(intro1)) + " " + upper(thesis1) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + "\n\n\t" + firstParaTransition + ", " + lower(thesis1) + " because " + lower(period(parapoint1)) + " " + period(upper(ex1)) + " " + period(upper(de1)) + " " + period(upper(il1)) + "\n\n\t" + secondParaTransition + ", " + lower(thesis1) + " because " + lower(period(parapoint2)) + " " + period(upper(ex2)) + " " + period(upper(de2)) + " " + period(upper(il2)) + "\n\n\t" + thirdParaTransition + ", " + lower(thesis1) + " because " + lower(period(parapoint3)) + " " + period(upper(ex3)) + " " + period(upper(de3)) + " " + period(upper(il3)) + "\n\n\t" + upper(thesis1) + " because " + lower(comma(parapoint1)) + " " + lower(comma(parapoint2)) + " and finally, " + lower(period(parapoint3)) + " " + period(upper(conclu1));
+		} catch (Exception e) { System.err.println("Whoops! Error in function createEssay(): " + e.toString()); }
 	return essay;
 	}
 }
